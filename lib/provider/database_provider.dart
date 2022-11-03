@@ -1,7 +1,11 @@
+import 'package:podliczator2000/model/category.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DatabaseProvider {
+  List<Category> _categories = [];
+  List<Category> get categories => _categories;
+
   Database? _database;
   Future<Database> get database async {
     final dbDirectory = await getDatabasesPath();
@@ -64,6 +68,21 @@ class DatabaseProvider {
         PROCEDURE_ID INTEGER,
         FOREIGN KEY(PROCEDURE_ID) REFERENCES $procedureTable(ID)
       )''');
+    });
+  }
+
+  Future<List<Category>> getCategories() async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      return await txn.query(categoryTable).then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+
+        List<Category> categoryList = List.generate(
+            converted.length, (index) => Category.fromString(converted[index]));
+
+        _categories = categoryList;
+        return _categories;
+      });
     });
   }
 }
