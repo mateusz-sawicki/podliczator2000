@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:podliczator2000/model/category.dart';
+import 'package:podliczator2000/model/planner.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
-class DatabaseProvider {
-  List<Category> _categories = [];
-  List<Category> get categories => _categories;
+class DatabaseProvider with ChangeNotifier {
+  List<Planner> _planners = [];
+  List<Planner> get planners => _planners;
 
   Database? _database;
   Future<Database> get database async {
@@ -71,17 +73,17 @@ class DatabaseProvider {
     });
   }
 
-  Future<List<Category>> getCategories() async {
+  Future<List<Planner>> getPlanners() async {
     final db = await database;
     return await db.transaction((txn) async {
-      return await txn.query(categoryTable).then((data) {
+      return await txn.query(plannerTable).then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
-        List<Category> categoryList = List.generate(
-            converted.length, (index) => Category.fromString(converted[index]));
+        List<Planner> plannersList = List.generate(
+            converted.length, (index) => Planner.fromString(converted[index]));
 
-        _categories = categoryList;
-        return _categories;
+        _planners = plannersList;
+        return _planners;
       });
     });
   }

@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:podliczator2000/screen/diary_screen.dart';
+import 'package:provider/provider.dart';
+import 'model/category.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (_) => DatabaseProvider(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/planner_screen/planner_fetcher.dart';
+
 class DiaryScreen extends StatelessWidget {
   const DiaryScreen({super.key});
 
@@ -9,16 +11,7 @@ class DiaryScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Dziennik'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              'Dziennik',
-            ),
-          ],
-        ),
-      ),
+      body: PlannerFetcher(),
     );
   }
 }
