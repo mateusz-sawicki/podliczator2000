@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:podliczator2000/model/category.dart';
 import 'package:podliczator2000/model/planner.dart';
+import 'package:podliczator2000/model/procedure.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DatabaseProvider with ChangeNotifier {
   List<Planner> _planners = [];
   List<Planner> get planners => _planners;
+
+  List<Procedure> _procedures = [];
+  List<Procedure> get procedures => _procedures;
 
   Database? _database;
   Future<Database> get database async {
@@ -76,7 +80,8 @@ class DatabaseProvider with ChangeNotifier {
   Future<List<Planner>> getPlanners() async {
     final db = await database;
     return await db.transaction((txn) async {
-      return await txn.query(plannerTable).then((data) {
+      return await txn.query(plannerTable,
+          where: 'DATE = ?', whereArgs: ['2019-10-14 13:57:01']).then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
         List<Planner> plannersList = List.generate(
@@ -84,6 +89,21 @@ class DatabaseProvider with ChangeNotifier {
 
         _planners = plannersList;
         return _planners;
+      });
+    });
+  }
+
+  Future<List<Procedure>> getProcedures() async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      return await txn.query(procedureTable).then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+
+        List<Procedure> proceduresList = List.generate(converted.length,
+            (index) => Procedure.fromString(converted[index]));
+
+        _procedures = proceduresList;
+        return _procedures;
       });
     });
   }

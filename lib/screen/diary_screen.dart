@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:podliczator2000/widgets/procedures_screen/procedure_fetcher.dart';
 
 import '../widgets/planner_screen/planner_fetcher.dart';
 
@@ -11,7 +12,7 @@ class DiaryScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Dziennik'),
       ),
-      body: PlannerFetcher(),
+      body: ProcedureFetcher(),
     );
   }
 }

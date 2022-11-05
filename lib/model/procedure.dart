@@ -11,12 +11,15 @@ class Procedure {
     required this.categoryId,
   });
 
-  Map<String, dynamic> toMap() =>
-      {'ID': id, 'NAME': name, 'AMOUNT': amount, 'CATEGORY_ID': categoryId};
+  Map<String, dynamic> toMap() => {
+        'NAME': name,
+        'AMOUNT': amount.toString(),
+        'CATEGORY_ID': categoryId,
+      };
 
   factory Procedure.fromString(Map<String, dynamic> value) => Procedure(
       id: value['ID'],
       name: value['NAME'],
-      amount: double.parse(value['AMOUNT']),
+      amount: double.parse(value['AMOUNT'].toString()),
       categoryId: value['CATEGORY_ID']);
 }

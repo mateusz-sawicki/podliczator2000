@@ -3,31 +3,31 @@ import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:podliczator2000/widgets/planner_screen/planner_fetcher.dart';
 
-class PlannerFetcher extends StatefulWidget {
-  const PlannerFetcher({super.key});
+class ProcedureFetcher extends StatefulWidget {
+  const ProcedureFetcher({super.key});
 
   @override
-  State<PlannerFetcher> createState() => _PlannerFetcherState();
+  State<ProcedureFetcher> createState() => _ProcedureFetcherState();
 }
 
-class _PlannerFetcherState extends State<PlannerFetcher> {
-  late Future _plannerList;
+class _ProcedureFetcherState extends State<ProcedureFetcher> {
+  late Future _procedureList;
 
-  Future _getPlannerList() async {
+  Future _getProcedureList() async {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
-    return await provider.getPlanners();
+    return await provider.getProcedures();
   }
 
   @override
   void initState() {
     super.initState();
-    _plannerList = _getPlannerList();
+    _procedureList = _getProcedureList();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _plannerList,
+      future: _procedureList,
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
@@ -35,11 +35,11 @@ class _PlannerFetcherState extends State<PlannerFetcher> {
           } else {
             return Consumer<DatabaseProvider>(
               builder: (_, db, __) {
-                var list = db.planners;
+                var list = db.procedures;
                 return ListView.builder(
                   itemCount: list.length,
                   itemBuilder: (_, i) =>
-                      ListTile(title: Text(list[i].date.toString())),
+                      ListTile(title: Text(list[i].name.toString())),
                 );
               },
             );
