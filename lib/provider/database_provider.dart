@@ -18,7 +18,6 @@ class DatabaseProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // when the search text is empty, return whole list, else search for the value
   List<Procedure> get procedures {
     return _searchText != ''
         ? _procedures
