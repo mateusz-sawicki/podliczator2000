@@ -10,7 +10,23 @@ class DatabaseProvider with ChangeNotifier {
   List<Planner> get planners => _planners;
 
   List<Procedure> _procedures = [];
-  List<Procedure> get procedures => _procedures;
+
+  String _searchText = '';
+  String get searchText => _searchText;
+  set searchText(String value) {
+    _searchText = value;
+    notifyListeners();
+  }
+
+  // when the search text is empty, return whole list, else search for the value
+  List<Procedure> get procedures {
+    return _searchText != ''
+        ? _procedures
+            .where(
+                (p) => p.name.toLowerCase().contains(_searchText.toLowerCase()))
+            .toList()
+        : _procedures;
+  }
 
   Database? _database;
   Future<Database> get database async {

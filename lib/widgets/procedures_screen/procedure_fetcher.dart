@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:podliczator2000/widgets/procedures_screen/procedure_card.dart';
+import 'package:podliczator2000/widgets/procedures_screen/procedure_list.dart';
+import 'package:podliczator2000/widgets/procedures_screen/search_procedure.dart';
 import 'package:provider/provider.dart';
 import 'package:podliczator2000/widgets/planner_screen/planner_fetcher.dart';
 
@@ -34,22 +36,11 @@ class _ProcedureFetcherState extends State<ProcedureFetcher> {
           if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           } else {
-            return Consumer<DatabaseProvider>(
-              builder: (_, db, __) {
-                var proceduresList = db.procedures;
-                return proceduresList.isNotEmpty
-                    ? ListView.separated(
-                        itemCount: proceduresList.length,
-                        itemBuilder: (_, i) {
-                          return ProcedureCard(proceduresList[i]);
-                        },
-                        separatorBuilder: (context, index) =>
-                            const Divider(height: 1, color: Colors.grey),
-                      )
-                    : const Center(
-                        child: Text('Brak procedur w bazie danych'),
-                      );
-              },
+            return Column(
+              children: const [
+                ProcedureSearch(),
+                Expanded(child: ProcedureList())
+              ],
             );
           }
         } else {
