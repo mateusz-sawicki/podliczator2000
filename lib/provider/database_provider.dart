@@ -96,7 +96,8 @@ class DatabaseProvider with ChangeNotifier {
   Future<List<Procedure>> getProcedures() async {
     final db = await database;
     return await db.transaction((txn) async {
-      return await txn.query(procedureTable).then((data) {
+      return await txn.rawQuery(
+          '''SELECT procedure.id, procedure.name, procedure.amount, procedure.category_id, category.name as CATEGORY_NAME, price_list.name as PRICE_LIST_NAME FROM procedure INNER JOIN category ON procedure.category_id = category.id INNER JOIN price_list on category.price_list_id = price_list.id''').then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
         List<Procedure> proceduresList = List.generate(converted.length,
