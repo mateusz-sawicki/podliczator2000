@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
-import 'package:podliczator2000/widgets/procedures_screen/procedure_card.dart';
 import 'package:podliczator2000/widgets/procedures_screen/procedure_list.dart';
 import 'package:podliczator2000/widgets/procedures_screen/search_procedure.dart';
 import 'package:provider/provider.dart';
-import 'package:podliczator2000/widgets/planner_screen/planner_fetcher.dart';
 
 class ProcedureFetcher extends StatefulWidget {
   const ProcedureFetcher({super.key});
