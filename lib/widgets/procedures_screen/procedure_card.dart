@@ -3,9 +3,7 @@ import 'package:podliczator2000/model/procedure.dart';
 
 class ProcedureCard extends StatelessWidget {
   final Procedure procedure;
-  ProcedureCard(this.procedure, {super.key});
-  //final _formKey = GlobalKey<FormState>();
-  //final int _quantity = 1;
+  const ProcedureCard(this.procedure, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +33,6 @@ class ProcedureCard extends StatelessWidget {
         ]),
       ),
       trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-        // IconButton(
-        //     onPressed: () {}, icon: const Icon(Icons.remove_circle_rounded)),
-        // Form(
-        //     key: _formKey,
-        //     child: SizedBox(
-        //         width: 50,
-        //         child: TextFormField(
-        //             keyboardType: TextInputType.number,
-        //             initialValue: _quantity.toString(),
-        //             enabled: false,
-        //             textAlign: TextAlign.center,
-        //             decoration: InputDecoration(
-        //               disabledBorder: OutlineInputBorder(),
-        //             )))),
-        // IconButton(
-        //     onPressed: () {}, icon: const Icon(Icons.add_circle_rounded)),
         IconButton(
           onPressed: () {},
           icon: const Icon(Icons.keyboard_arrow_right_rounded),

@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
           await Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => AddProcedureToPlannerScreen(),
+              builder: (context) => const AddProcedureToPlannerScreen(),
             ),
           );
         },

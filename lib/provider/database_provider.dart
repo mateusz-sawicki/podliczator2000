@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:podliczator2000/model/category.dart';
 import 'package:podliczator2000/model/planner.dart';
 import 'package:podliczator2000/model/procedure.dart';
 import 'package:sqflite/sqflite.dart';

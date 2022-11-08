@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:podliczator2000/widgets/procedures_screen/procedure_card.dart';
 import 'package:podliczator2000/widgets/procedures_screen/procedure_fetcher.dart';
-
-import '../widgets/planner_screen/planner_fetcher.dart';
 
 class AddProcedureToPlannerScreen extends StatelessWidget {
   const AddProcedureToPlannerScreen({super.key});

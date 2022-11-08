@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:podliczator2000/widgets/planner_screen/planner_fetcher.dart';
 
 class PlannerFetcher extends StatefulWidget {
   const PlannerFetcher({super.key});
