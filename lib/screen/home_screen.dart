@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:podliczator2000/screen/add_procedure_to_planner_screen.dart';
 import 'package:podliczator2000/screen/diary_screen.dart';
 import 'package:podliczator2000/screen/menu.dart';
 import 'package:podliczator2000/screen/send_invoice_screen.dart';
@@ -36,7 +37,14 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavBar(index: _selectedIndex, onChangeTab: onChangeTab),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => AddProcedureToPlannerScreen(),
+            ),
+          );
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
