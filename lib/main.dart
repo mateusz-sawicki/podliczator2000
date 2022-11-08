@@ -2,13 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:podliczator2000/screen/home_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-    create: (_) => DatabaseProvider(),
-    child: const MyApp(),
-  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(ChangeNotifierProvider(
+      create: (_) => DatabaseProvider(),
+      child: const MyApp(),
+    ));
+  });
 }
 
 class MyApp extends StatelessWidget {
