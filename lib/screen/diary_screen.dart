@@ -13,7 +13,7 @@ class DiaryScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Dziennik'),
       ),
-      body: const ProcedureFetcher(),
+      body: const PlannerFetcher(),
     );
   }
 }
