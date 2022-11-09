@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
-import 'package:podliczator2000/widgets/procedures_screen/procedure_card.dart';
+import 'package:podliczator2000/widgets/procedures_screen/procedure_list_tile.dart';
 
 class ProcedureList extends StatelessWidget {
   const ProcedureList({super.key});
@@ -15,7 +15,7 @@ class ProcedureList extends StatelessWidget {
             ? ListView.separated(
                 itemCount: proceduresList.length,
                 itemBuilder: (_, i) {
-                  return ProcedureCard(proceduresList[i]);
+                  return ProcedureListTile(proceduresList[i]);
                 },
                 separatorBuilder: (context, index) =>
                     const Divider(height: 1, color: Colors.grey),

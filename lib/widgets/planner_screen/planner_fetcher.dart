@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:podliczator2000/widgets/planner_screen/calendar_widget.dart';
+import 'package:podliczator2000/widgets/planner_screen/planner_list.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/constant.dart';
@@ -40,15 +41,9 @@ class _PlannerFetcherState extends State<PlannerFetcher> {
                 if (snapshot.hasError) {
                   return Center(child: Text(snapshot.error.toString()));
                 } else {
-                  return Consumer<DatabaseProvider>(
-                    builder: (_, db, __) {
-                      var list = db.planners;
-                      return ListView.builder(
-                        itemCount: list.length,
-                        itemBuilder: (_, i) =>
-                            ListTile(title: Text(list[i].date.toString())),
-                      );
-                    },
+                  return const Padding(
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    child: PlannerList(),
                   );
                 }
               } else {

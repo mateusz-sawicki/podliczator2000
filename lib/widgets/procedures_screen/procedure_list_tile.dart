@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/model/procedure.dart';
 
-class ProcedureCard extends StatelessWidget {
+class ProcedureListTile extends StatelessWidget {
   final Procedure procedure;
-  const ProcedureCard(this.procedure, {super.key});
+  const ProcedureListTile(this.procedure, {super.key});
 
   @override
   Widget build(BuildContext context) {

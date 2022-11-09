@@ -94,8 +94,8 @@ class DatabaseProvider with ChangeNotifier {
   Future<List<Planner>> getPlanners(String date) async {
     final db = await database;
     return await db.transaction((txn) async {
-      return await txn.query(plannerTable,
-          where: 'DATE = ?', whereArgs: [date]).then((data) {
+      return await txn.rawQuery(
+          '''SELECT planner.id, planner.date, planner.procedure_id, procedure.name as PROCEDURE_NAME, category.name as CATEGORY_NAME, price_list.name as PRICE_LIST_NAME FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id INNER JOIN price_list on category.price_list_id = price_list.id WHERE planner.date = "$date"''').then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
         List<Planner> plannersList = List.generate(
