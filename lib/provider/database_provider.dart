@@ -91,17 +91,18 @@ class DatabaseProvider with ChangeNotifier {
     });
   }
 
-  Future<List<Planner>> getPlanners() async {
+  Future<List<Planner>> getPlanners(String date) async {
     final db = await database;
     return await db.transaction((txn) async {
       return await txn.query(plannerTable,
-          where: 'DATE = ?', whereArgs: ['2019-10-14 13:57:01']).then((data) {
+          where: 'DATE = ?', whereArgs: [date]).then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
         List<Planner> plannersList = List.generate(
             converted.length, (index) => Planner.fromString(converted[index]));
 
         _planners = plannersList;
+        notifyListeners();
         return _planners;
       });
     });

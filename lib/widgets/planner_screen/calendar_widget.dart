@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:podliczator2000/provider/database_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
+
+import '../../constants/constant.dart';
 
 class CalendarWidget extends StatefulWidget {
   const CalendarWidget({super.key});
@@ -17,7 +21,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting('pl-PL', null);
-
+    final provider = Provider.of<DatabaseProvider>(context, listen: false);
     return Container(
       decoration: const BoxDecoration(
           color: Colors.blue,
@@ -36,6 +40,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               _selectedDay = selectedDay;
               _focusedDay = focusedDay;
             });
+            provider.getPlanners(Constants().formatter.format(_focusedDay));
           } else {
             showDatePicker(
                     context: context,
@@ -51,6 +56,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   }
                   _selectedDay = date;
                   _focusedDay = _selectedDay;
+                  provider
+                      .getPlanners(Constants().formatter.format(_focusedDay));
                 },
               ),
             );

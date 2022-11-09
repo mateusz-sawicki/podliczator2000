@@ -3,6 +3,8 @@ import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:podliczator2000/widgets/planner_screen/calendar_widget.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/constant.dart';
+
 class PlannerFetcher extends StatefulWidget {
   const PlannerFetcher({super.key});
 
@@ -15,7 +17,8 @@ class _PlannerFetcherState extends State<PlannerFetcher> {
 
   Future _getPlannerList() async {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
-    return await provider.getPlanners();
+    DateTime date = DateTime.now();
+    return await provider.getPlanners(Constants().formatter.format(date));
   }
 
   @override
