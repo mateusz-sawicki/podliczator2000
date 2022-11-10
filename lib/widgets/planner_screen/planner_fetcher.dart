@@ -42,7 +42,7 @@ class _PlannerFetcherState extends State<PlannerFetcher> {
                   return Center(child: Text(snapshot.error.toString()));
                 } else {
                   return const Padding(
-                    padding: EdgeInsets.only(left: 15, right: 15),
+                    padding: EdgeInsets.symmetric(horizontal: 15),
                     child: PlannerList(),
                   );
                 }
