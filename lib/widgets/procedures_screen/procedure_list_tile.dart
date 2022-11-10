@@ -17,7 +17,7 @@ class ProcedureListTile extends StatelessWidget {
         ),
       ),
       subtitle: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         child: Column(children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
