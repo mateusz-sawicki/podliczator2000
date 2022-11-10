@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/model/planner.dart';
+import 'package:podliczator2000/widgets/planner_screen/confirm_box.dart';
 
 class PlannerCard extends StatelessWidget {
   final Planner planner;
@@ -57,40 +58,11 @@ class PlannerCard extends StatelessWidget {
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
               onPressed: () async {
-                // showDialog(
-                //     context: context,
-                //     builder: (context) => AlertDialog(
-                //           title: Column(
-                //             mainAxisAlignment: MainAxisAlignment.center,
-                //             crossAxisAlignment: CrossAxisAlignment.center,
-                //             children: [
-                //               Icon(
-                //                 Icons.info_outline,
-                //                 size: 60,
-                //                 color: Colors.blue,
-                //               ),
-                //               Text(
-                //                 'Czy na pewno chcesz usunąć procedurę?',
-                //                 textAlign: TextAlign.center,
-                //                 style: TextStyle(
-                //                   color: Colors.black,
-                //                 ),
-                //               ),
-                //             ],
-                //           ),
-                //           actions: [
-                //             TextButton(
-                //                 onPressed: () async {
-                //                   Navigator.pop(context);
-                //                 },
-                //                 child: Text('Tak')),
-                //             TextButton(
-                //                 onPressed: () {
-                //                   Navigator.pop(context);
-                //                 },
-                //                 child: Text('Anuluj'))
-                //           ],
-                //         ));
+                showDialog(
+                    context: context,
+                    builder: (context) => ConfirmBox(
+                          planner: planner,
+                        ));
               },
               icon: const Icon(
                 Icons.delete_rounded,

@@ -32,7 +32,11 @@ class DatabaseProvider with ChangeNotifier {
     const dbName = 'podliczator2000_db.db';
     final path = join(dbDirectory, dbName);
 
-    _database = await openDatabase(path, version: 1, onCreate: _createDb);
+    _database = await openDatabase(
+      path,
+      version: 1,
+      onCreate: _createDb,
+    );
 
     return _database!;
   }
@@ -120,6 +124,17 @@ class DatabaseProvider with ChangeNotifier {
 
         _procedures = proceduresList;
         return _procedures;
+      });
+    });
+  }
+
+  Future<void> deletePlanner(int plannerId) async {
+    final db = await database;
+    await db.transaction((txn) async {
+      await txn.delete(plannerTable,
+          where: 'id == ?', whereArgs: [plannerId]).then((_) {
+        _planners.removeWhere((element) => element.id == plannerId);
+        notifyListeners();
       });
     });
   }
