@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/planner.dart';
-
 class ConfirmBox extends StatelessWidget {
   final int plannerId;
   const ConfirmBox({required this.plannerId, super.key});
