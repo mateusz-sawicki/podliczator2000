@@ -33,7 +33,7 @@ class ConfirmBox extends StatelessWidget {
       actions: [
         TextButton(
             onPressed: () async {
-              Navigator.of(context).pop(true); // delete
+              Navigator.of(context).pop(true);
               provider.deletePlanner(planner.id);
             },
             child: const Text('Tak')),
