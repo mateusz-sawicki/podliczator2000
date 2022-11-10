@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
+import 'package:podliczator2000/widgets/planner_screen/empty_planner.dart';
 import 'package:podliczator2000/widgets/planner_screen/planners_count.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +39,7 @@ class PlannerList extends StatelessWidget {
                 ],
               )
             : const Center(
-                child: Text('Brak procedur w danym dniu'),
+                child: EmptyPlanner(),
               );
       },
     );
