@@ -41,10 +41,7 @@ class _PlannerFetcherState extends State<PlannerFetcher> {
                 if (snapshot.hasError) {
                   return Center(child: Text(snapshot.error.toString()));
                 } else {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 15),
-                    child: PlannerList(),
-                  );
+                  return const PlannerList();
                 }
               } else {
                 return const Center(child: CircularProgressIndicator());
