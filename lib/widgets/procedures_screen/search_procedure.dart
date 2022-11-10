@@ -11,6 +11,15 @@ class ProcedureSearch extends StatefulWidget {
 
 class _ProcedureSearchState extends State<ProcedureSearch> {
   @override
+  void initState() {
+    Future.delayed(Duration.zero, () {
+      final provider = Provider.of<DatabaseProvider>(context, listen: false);
+      provider.searchText = '';
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
     return Container(
