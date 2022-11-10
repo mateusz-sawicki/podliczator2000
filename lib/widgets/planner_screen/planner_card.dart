@@ -61,7 +61,7 @@ class PlannerCard extends StatelessWidget {
                 showDialog(
                     context: context,
                     builder: (context) => ConfirmBox(
-                          planner: planner,
+                          plannerId: planner.id,
                         ));
               },
               icon: const Icon(

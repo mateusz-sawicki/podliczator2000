@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import '../../model/planner.dart';
 
 class ConfirmBox extends StatelessWidget {
-  final Planner planner;
-  const ConfirmBox({required this.planner, super.key});
+  final int plannerId;
+  const ConfirmBox({required this.plannerId, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class ConfirmBox extends StatelessWidget {
         TextButton(
             onPressed: () async {
               Navigator.of(context).pop(true);
-              provider.deletePlanner(planner.id);
+              provider.deletePlanner(plannerId);
             },
             child: const Text('Tak')),
         TextButton(
