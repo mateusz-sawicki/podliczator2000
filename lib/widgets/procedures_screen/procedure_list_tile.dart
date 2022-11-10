@@ -22,12 +22,18 @@ class ProcedureListTile extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Row(children: [
-              const Icon(Icons.grid_view_rounded),
+              const Icon(
+                Icons.grid_view_rounded,
+                size: 18,
+              ),
               Text(procedure.categoryName, style: const TextStyle(fontSize: 14))
             ]),
           ),
           Row(children: [
-            const Icon(Icons.request_quote),
+            const Icon(
+              Icons.request_quote,
+              size: 18,
+            ),
             Text(procedure.priceListName, style: const TextStyle(fontSize: 14))
           ]),
         ]),
