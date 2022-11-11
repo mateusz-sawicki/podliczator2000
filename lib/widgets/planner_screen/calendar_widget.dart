@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:podliczator2000/main.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';

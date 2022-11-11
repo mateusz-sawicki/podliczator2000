@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:podliczator2000/constants/constant.dart';
-import 'package:podliczator2000/main.dart';
 import 'package:podliczator2000/model/add_planner.dart';
 import 'package:podliczator2000/model/procedure.dart';
 import 'package:provider/provider.dart';
