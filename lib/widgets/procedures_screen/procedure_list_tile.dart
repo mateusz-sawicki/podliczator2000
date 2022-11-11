@@ -70,7 +70,7 @@ class ProcedureListTile extends StatelessWidget {
                 ),
                 behavior: SnackBarBehavior.floating,
                 backgroundColor: Colors.green,
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 1000),
               );
               ScaffoldMessenger.of(context).showSnackBar(snackbar);
             });
