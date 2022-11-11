@@ -17,6 +17,8 @@ class CalendarWidget extends StatefulWidget {
 class _CalendarWidgetState extends State<CalendarWidget> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
+  final _firstDay = DateTime.utc(1970, 01, 01);
+  final _lastDay = DateTime(DateTime.now().year + 10);
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +30,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
       child: TableCalendar(
         focusedDay: _focusedDay,
-        firstDay: DateTime.utc(1970, 01, 01),
-        lastDay: DateTime.utc(2040, 12, 31),
+        firstDay: _firstDay,
+        lastDay: _lastDay,
         selectedDayPredicate: (day) {
           return isSameDay(_selectedDay, day);
         },
@@ -46,8 +48,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             showDatePicker(
                     context: context,
                     initialDate: _selectedDay,
-                    firstDate: DateTime.utc(2020, 01, 01),
-                    lastDate: DateTime(DateTime.now().year + 10),
+                    firstDate: _firstDay,
+                    lastDate: _lastDay,
                     locale: const Locale('pl', ''))
                 .then(
               (date) => setState(
