@@ -56,7 +56,21 @@ class ProcedureListTile extends StatelessWidget {
             );
             provider.addPlanner(planner);
             FocusManager.instance.primaryFocus?.unfocus();
-            Future.delayed(const Duration(seconds: 1), () {
+            Future.delayed(const Duration(milliseconds: 250), () {
+              final snackbar = SnackBar(
+                content: Row(
+                  children: const [
+                    Icon(Icons.done),
+                    Text('Pomyślnie dodano procedurę'),
+                  ],
+                ),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.green,
+                duration: const Duration(milliseconds: 500),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackbar);
+            });
+            Future.delayed(const Duration(milliseconds: 1200), () {
               Navigator.pop(context, true);
             });
             provider.getPlanners(planner.date);
