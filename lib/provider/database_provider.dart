@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:podliczator2000/model/add_planner.dart';
 import 'package:podliczator2000/model/planner.dart';
 import 'package:podliczator2000/model/procedure.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
+import '../constants/constant.dart';
 
 class DatabaseProvider with ChangeNotifier {
   List<Planner> _planners = [];
@@ -26,13 +29,24 @@ class DatabaseProvider with ChangeNotifier {
         : _procedures;
   }
 
+  String _focusedDay = Constants().formatter.format(DateTime.now());
+  String get focusedDay => _focusedDay;
+  set focusedDay(String value) {
+    _focusedDay = value;
+    notifyListeners();
+  }
+
   Database? _database;
   Future<Database> get database async {
     final dbDirectory = await getDatabasesPath();
     const dbName = 'podliczator2000_db.db';
     final path = join(dbDirectory, dbName);
 
-    _database = await openDatabase(path, version: 1, onCreate: _createDb);
+    _database = await openDatabase(
+      path,
+      version: 1,
+      onCreate: _createDb,
+    );
 
     return _database!;
   }
@@ -91,17 +105,18 @@ class DatabaseProvider with ChangeNotifier {
     });
   }
 
-  Future<List<Planner>> getPlanners() async {
+  Future<List<Planner>> getPlanners(String date) async {
     final db = await database;
     return await db.transaction((txn) async {
-      return await txn.query(plannerTable,
-          where: 'DATE = ?', whereArgs: ['2019-10-14 13:57:01']).then((data) {
+      return await txn.rawQuery(
+          '''SELECT planner.id, planner.date, planner.procedure_id, procedure.name as PROCEDURE_NAME, category.name as CATEGORY_NAME, price_list.name as PRICE_LIST_NAME FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id INNER JOIN price_list on category.price_list_id = price_list.id WHERE planner.date = "$date"''').then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
         List<Planner> plannersList = List.generate(
             converted.length, (index) => Planner.fromString(converted[index]));
 
         _planners = plannersList;
+        notifyListeners();
         return _planners;
       });
     });
@@ -119,6 +134,37 @@ class DatabaseProvider with ChangeNotifier {
 
         _procedures = proceduresList;
         return _procedures;
+      });
+    });
+  }
+
+  Future<void> deletePlanner(int plannerId) async {
+    final db = await database;
+    await db.transaction((txn) async {
+      await txn.delete(plannerTable,
+          where: 'id == ?', whereArgs: [plannerId]).then((_) {
+        _planners.removeWhere((element) => element.id == plannerId);
+        notifyListeners();
+      });
+    });
+  }
+
+  Future<void> addPlanner(AddPlanner planner) async {
+    final db = await database;
+    await db.transaction((txn) async {
+      await txn
+          .insert(
+        plannerTable,
+        planner.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      )
+          .then((generatedId) {
+        // final newPlanner = AddPlanner(
+        //     id: generatedId,
+        //     date: planner.date,
+        //     procedureId: planner.procedureId);
+        // _planners.add(newPlanner);
+        notifyListeners();
       });
     });
   }

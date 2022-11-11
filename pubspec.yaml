@@ -42,6 +42,8 @@ dependencies:
   table_calendar: ^3.0.8
   intl: ^0.17.0
   path: ^1.8.2
+  google_fonts: ^3.0.1
+  material_design_icons_flutter: ^5.0.6996
 
 dev_dependencies:
   flutter_test:
