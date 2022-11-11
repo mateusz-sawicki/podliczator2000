@@ -59,9 +59,13 @@ class ProcedureListTile extends StatelessWidget {
             Future.delayed(const Duration(milliseconds: 250), () {
               final snackbar = SnackBar(
                 content: Row(
-                  children: const [
-                    Icon(Icons.done),
-                    Text('Pomyślnie dodano procedurę'),
+                  children: [
+                    Icon(
+                      Icons.done,
+                      color: Colors.green[800],
+                    ),
+                    const SizedBox(width: 10),
+                    const Text('Pomyślnie dodano procedurę'),
                   ],
                 ),
                 behavior: SnackBarBehavior.floating,
