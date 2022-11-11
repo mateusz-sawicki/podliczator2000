@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:podliczator2000/screen/summary_screen.dart';
 
 class PlannersCount extends StatelessWidget {
   final int plannerQuantity;
@@ -27,7 +28,14 @@ class PlannersCount extends StatelessWidget {
                 ],
               ),
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const SummaryScreen(),
+                      ),
+                    );
+                  },
                   child: Center(
                     child: Text('Wykonanych procedur: $plannerQuantity',
                         style: GoogleFonts.merriweatherSans(
