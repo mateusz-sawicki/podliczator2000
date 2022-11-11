@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:podliczator2000/main.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -39,6 +40,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             setState(() {
               _selectedDay = selectedDay;
               _focusedDay = focusedDay;
+              provider.focusedDay = Constants().formatter.format(focusedDay);
             });
             provider.getPlanners(Constants().formatter.format(_focusedDay));
           } else {
