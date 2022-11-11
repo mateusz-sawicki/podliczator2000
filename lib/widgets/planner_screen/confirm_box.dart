@@ -33,6 +33,22 @@ class ConfirmBox extends StatelessWidget {
             onPressed: () async {
               Navigator.of(context).pop(true);
               provider.deletePlanner(plannerId);
+              final snackbar = SnackBar(
+                content: Row(
+                  children: [
+                    Icon(
+                      Icons.done,
+                      color: Colors.green[800],
+                    ),
+                    const SizedBox(width: 10),
+                    const Text('Pomyślnie usunięto procedurę'),
+                  ],
+                ),
+                behavior: SnackBarBehavior.floating,
+                backgroundColor: Colors.green,
+                duration: const Duration(milliseconds: 1000),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackbar);
             },
             child: const Text('Tak')),
         TextButton(

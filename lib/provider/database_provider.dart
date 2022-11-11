@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
+import 'package:podliczator2000/model/add_planner.dart';
 import 'package:podliczator2000/model/planner.dart';
 import 'package:podliczator2000/model/procedure.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+
+import '../constants/constant.dart';
 
 class DatabaseProvider with ChangeNotifier {
   List<Planner> _planners = [];
@@ -24,6 +27,13 @@ class DatabaseProvider with ChangeNotifier {
                 (p) => p.name.toLowerCase().contains(_searchText.toLowerCase()))
             .toList()
         : _procedures;
+  }
+
+  String _focusedDay = Constants().formatter.format(DateTime.now());
+  String get focusedDay => _focusedDay;
+  set focusedDay(String value) {
+    _focusedDay = value;
+    notifyListeners();
   }
 
   Database? _database;
@@ -134,6 +144,26 @@ class DatabaseProvider with ChangeNotifier {
       await txn.delete(plannerTable,
           where: 'id == ?', whereArgs: [plannerId]).then((_) {
         _planners.removeWhere((element) => element.id == plannerId);
+        notifyListeners();
+      });
+    });
+  }
+
+  Future<void> addPlanner(AddPlanner planner) async {
+    final db = await database;
+    await db.transaction((txn) async {
+      await txn
+          .insert(
+        plannerTable,
+        planner.toMap(),
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      )
+          .then((generatedId) {
+        // final newPlanner = AddPlanner(
+        //     id: generatedId,
+        //     date: planner.date,
+        //     procedureId: planner.procedureId);
+        // _planners.add(newPlanner);
         notifyListeners();
       });
     });

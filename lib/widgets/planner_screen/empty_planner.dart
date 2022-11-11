@@ -9,7 +9,7 @@ class EmptyPlanner extends StatelessWidget {
     return Container(
       padding: EdgeInsets.zero,
       color: Colors.white,
-      constraints: BoxConstraints.expand(),
+      constraints: const BoxConstraints.expand(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
