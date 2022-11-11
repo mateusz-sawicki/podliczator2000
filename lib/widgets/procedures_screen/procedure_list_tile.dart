@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:podliczator2000/model/add_planner.dart';
 import 'package:podliczator2000/model/procedure.dart';
 import 'package:provider/provider.dart';
-
 import '../../provider/database_provider.dart';
 
 class ProcedureListTile extends StatelessWidget {
@@ -55,10 +54,11 @@ class ProcedureListTile extends StatelessWidget {
               date: provider.focusedDay,
               procedureId: procedure.id,
             );
-
             provider.addPlanner(planner);
-
-            Navigator.pop(context, true);
+            FocusManager.instance.primaryFocus?.unfocus();
+            Future.delayed(const Duration(seconds: 1), () {
+              Navigator.pop(context, true);
+            });
             provider.getPlanners(planner.date);
           },
           icon: const Icon(Icons.keyboard_double_arrow_right_rounded),
