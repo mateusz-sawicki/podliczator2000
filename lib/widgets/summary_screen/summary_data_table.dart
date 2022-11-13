@@ -49,8 +49,7 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                         DataCell(Text("${element.procedureSum}zł")),
                       ]))
                   .toList(),
-              dataRowHeight:
-                  50 + MediaQuery.of(context).size.height / summaryList.length,
+              dataRowHeight: MediaQuery.of(context).size.height / 8,
             ))
           : const Center(
               child: Text("chuj"),
