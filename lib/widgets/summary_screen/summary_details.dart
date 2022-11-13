@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:podliczator2000/constants/constant.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_data_table.dart';
 import 'package:provider/provider.dart';
