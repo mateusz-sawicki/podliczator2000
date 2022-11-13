@@ -44,6 +44,7 @@ dependencies:
   path: ^1.8.2
   google_fonts: ^3.0.1
   material_design_icons_flutter: ^5.0.6996
+  data_table_2: ^2.3.8
 
 dev_dependencies:
   flutter_test:
