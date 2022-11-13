@@ -50,6 +50,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+<<<<<<< HEAD
   data_table_2:
     dependency: "direct main"
     description:
@@ -64,6 +65,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
+=======
+>>>>>>> parent of aa89c18 (added data_table_2 package)
   fake_async:
     dependency: transitive
     description:
