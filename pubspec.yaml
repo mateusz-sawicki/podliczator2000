@@ -44,11 +44,7 @@ dependencies:
   path: ^1.8.2
   google_fonts: ^3.0.1
   material_design_icons_flutter: ^5.0.6996
-<<<<<<< HEAD
-  data_table_2: ^2.3.8
   fl_chart: ^0.55.2
-=======
->>>>>>> parent of aa89c18 (added data_table_2 package)
 
 dev_dependencies:
   flutter_test:
