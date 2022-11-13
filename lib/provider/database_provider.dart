@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:podliczator2000/model/add_planner.dart';
 import 'package:podliczator2000/model/planner.dart';
 import 'package:podliczator2000/model/procedure.dart';
+import 'package:podliczator2000/model/summary.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -36,6 +37,9 @@ class DatabaseProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  List<Summary> _summaries = [];
+  List<Summary> get summaries => _summaries;
+
   Database? _database;
   Future<Database> get database async {
     final dbDirectory = await getDatabasesPath();
@@ -60,19 +64,19 @@ class DatabaseProvider with ChangeNotifier {
 
   Future<void> _createDb(Database db, int version) async {
     await db.transaction((txn) async {
-      await txn.execute('''CREATE TABLE $userTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $userTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME TEXT
       )''');
 
-      await txn.execute('''CREATE TABLE $businessTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $businessTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME TEXT,
         USER_ID INTEGER,
         FOREIGN KEY(USER_ID) REFERENCES $userTable(ID)
       )''');
 
-      await txn.execute('''CREATE TABLE $priceListTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $priceListTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME TEXT,
         VALID_FROM TEXT,
@@ -81,14 +85,14 @@ class DatabaseProvider with ChangeNotifier {
         FOREIGN KEY(BUSINESS_ID) REFERENCES $businessTable(ID)
       )''');
 
-      await txn.execute('''CREATE TABLE $categoryTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $categoryTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME TEXT,
         PRICE_LIST_ID INTEGER,
         FOREIGN KEY(PRICE_LIST_ID) REFERENCES $priceListTable(ID)
       )''');
 
-      await txn.execute('''CREATE TABLE $procedureTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $procedureTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME TEXT,
         AMOUNT REAL,
@@ -96,7 +100,7 @@ class DatabaseProvider with ChangeNotifier {
         FOREIGN KEY(CATEGORY_ID) REFERENCES $categoryTable(ID)
       )''');
 
-      await txn.execute('''CREATE TABLE $plannerTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $plannerTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         DATE TEXT,
         PROCEDURE_ID INTEGER,
@@ -109,7 +113,7 @@ class DatabaseProvider with ChangeNotifier {
     final db = await database;
     return await db.transaction((txn) async {
       return await txn.rawQuery(
-          '''SELECT planner.id, planner.date, planner.procedure_id, procedure.name as PROCEDURE_NAME, category.name as CATEGORY_NAME, price_list.name as PRICE_LIST_NAME FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id INNER JOIN price_list on category.price_list_id = price_list.id WHERE planner.date = "$date"''').then((data) {
+          '''SELECT planner.id, planner.date, planner.procedure_id as PROCEDURE_ID, procedure.name as PROCEDURE_NAME, category.name as CATEGORY_NAME, price_list.name as PRICE_LIST_NAME FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id INNER JOIN price_list on category.price_list_id = price_list.id WHERE planner.date = "$date"''').then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
         List<Planner> plannersList = List.generate(
@@ -159,12 +163,25 @@ class DatabaseProvider with ChangeNotifier {
         conflictAlgorithm: ConflictAlgorithm.replace,
       )
           .then((generatedId) {
-        // final newPlanner = AddPlanner(
-        //     id: generatedId,
-        //     date: planner.date,
-        //     procedureId: planner.procedureId);
-        // _planners.add(newPlanner);
         notifyListeners();
+      });
+    });
+  }
+
+  Future<List<Summary>> getSummary(String date) async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      return await txn.rawQuery(
+          '''SELECT planner.date, planner.procedure_id as PROCEDURE_ID, procedure.name as PROCEDURE_NAME, procedure.amount as PROCEDURE_AMOUNT, COUNT(procedure_id) as PROCEDURE_ENTRIES, SUM(PROCEDURE.AMOUNT) as PROCEDURE_SUM, category.name as CATEGORY_NAME, price_list.name as PRICE_LIST_NAME FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id INNER JOIN price_list on category.price_list_id = price_list.id WHERE planner.date = "$date" group by procedure_id''').then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+
+        List<Summary> summariesList = List.generate(
+            converted.length, (index) => Summary.fromString(converted[index]));
+
+        _summaries = summariesList;
+        notifyListeners();
+
+        return _summaries;
       });
     });
   }

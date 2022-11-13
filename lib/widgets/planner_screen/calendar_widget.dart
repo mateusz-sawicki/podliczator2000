@@ -61,6 +61,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   _focusedDay = _selectedDay;
                   provider
                       .getPlanners(Constants().formatter.format(_focusedDay));
+                  provider.focusedDay =
+                      Constants().formatter.format(_focusedDay);
                 },
               ),
             );
