@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class SummaryTotal extends StatelessWidget {
-  final String summarySum;
+  final double summarySum;
   const SummaryTotal({required this.summarySum, super.key});
 
   @override
@@ -19,7 +20,9 @@ class SummaryTotal extends StatelessWidget {
             child: Text("Saldo:"),
           ),
           Center(
-            child: Text("$summarySum zł",
+            child: Text(
+                NumberFormat.currency(locale: 'pl_PL', symbol: 'zł')
+                    .format(summarySum),
                 style: const TextStyle(
                   fontWeight: FontWeight.w700,
                   fontSize: 30,

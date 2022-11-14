@@ -50,11 +50,11 @@ class _SummaryDetailsState extends State<SummaryDetails> {
     );
   }
 
-  String countSums(List<Summary> list) {
+  double countSums(List<Summary> list) {
     double sum = 0;
     for (var element in list) {
       sum += element.procedureSum;
     }
-    return sum.toStringAsFixed(2);
+    return sum;
   }
 }

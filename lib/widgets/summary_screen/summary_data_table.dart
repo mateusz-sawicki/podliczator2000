@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:podliczator2000/model/summary.dart';
 
 class SummaryDataTable extends StatefulWidget {
@@ -22,7 +23,10 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
         sortAscending: isAscending,
         columns: [
           DataColumn(
-              label: const Text("Procedury"),
+              label: const Text(
+                "Procedury",
+                style: TextStyle(fontSize: 16),
+              ),
               onSort: (columnIndex, _) {
                 setState(() {
                   sortColumnIndex = columnIndex;
@@ -40,7 +44,10 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                 });
               }),
           DataColumn(
-              label: const Text("Ilość"),
+              label: const Text(
+                "Ilość",
+                style: TextStyle(fontSize: 16),
+              ),
               onSort: (columnIndex, _) {
                 setState(() {
                   sortColumnIndex = columnIndex;
@@ -62,7 +69,10 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                 });
               }),
           DataColumn(
-              label: const Text("Suma"),
+              label: const Text(
+                "Suma",
+                style: TextStyle(fontSize: 16),
+              ),
               onSort: (columnIndex, _) {
                 setState(() {
                   sortColumnIndex = columnIndex;
@@ -97,14 +107,17 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                           const SizedBox(
                             height: 5,
                           ),
-                          Text("Cena: ${element.procedureAmount}zł",
+                          Text(
+                              "Cena: ${NumberFormat.currency(locale: 'pl_PL', symbol: 'zł').format(element.procedureAmount)}",
                               style: const TextStyle(
                                 fontSize: 12,
                               ))
                         ]),
                   ),
                   DataCell(Text(element.procedureEntries.toString())),
-                  DataCell(Text("${element.procedureSum}zł")),
+                  DataCell(Text(
+                      NumberFormat.currency(locale: 'pl_PL', symbol: 'zł')
+                          .format(element.procedureSum))),
                 ]))
             .toList(),
         dataRowHeight: MediaQuery.of(context).size.height / 8,
