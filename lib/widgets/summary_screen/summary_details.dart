@@ -14,9 +14,6 @@ class SummaryDetails extends StatefulWidget {
 }
 
 class _SummaryDetailsState extends State<SummaryDetails> {
-  late Future _summaryList;
-  late Future _categorySummaryList;
-
   Future _getSummaryList() async {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
     return await provider.getSummary(provider.focusedDay);
@@ -30,8 +27,8 @@ class _SummaryDetailsState extends State<SummaryDetails> {
   @override
   void initState() {
     super.initState();
-    _summaryList = _getSummaryList();
-    _categorySummaryList = _getCategorySummaryList();
+    _getSummaryList();
+    _getCategorySummaryList();
   }
 
   @override

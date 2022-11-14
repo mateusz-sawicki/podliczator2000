@@ -101,9 +101,16 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                           Text(
                             element.procedureName,
                             style: const TextStyle(
-                                fontSize: 13, overflow: TextOverflow.ellipsis),
+                                fontSize: 13,
+                                overflow: TextOverflow.ellipsis,
+                                fontWeight: FontWeight.w700),
                             maxLines: 5,
                           ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Text(element.categoryName,
+                              style: const TextStyle(fontSize: 12)),
                           const SizedBox(
                             height: 5,
                           ),
@@ -111,7 +118,7 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                               "Cena: ${NumberFormat.currency(locale: 'pl_PL', symbol: 'zł').format(element.procedureAmount)}",
                               style: const TextStyle(
                                 fontSize: 12,
-                              ))
+                              )),
                         ]),
                   ),
                   DataCell(Text(element.procedureEntries.toString())),
@@ -120,7 +127,7 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                           .format(element.procedureSum))),
                 ]))
             .toList(),
-        dataRowHeight: MediaQuery.of(context).size.height / 8,
+        dataRowHeight: MediaQuery.of(context).size.height / 7,
       ),
     ));
   }

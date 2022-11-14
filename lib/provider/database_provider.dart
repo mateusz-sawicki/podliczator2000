@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:podliczator2000/model/add_planner.dart';
-import 'package:podliczator2000/model/categorySummary.dart';
+import 'package:podliczator2000/model/category_summary.dart';
 import 'package:podliczator2000/model/planner.dart';
 import 'package:podliczator2000/model/procedure.dart';
 import 'package:podliczator2000/model/summary.dart';
