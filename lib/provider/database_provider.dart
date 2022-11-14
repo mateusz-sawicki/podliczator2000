@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:podliczator2000/model/add_planner.dart';
+import 'package:podliczator2000/model/categorySummary.dart';
 import 'package:podliczator2000/model/planner.dart';
 import 'package:podliczator2000/model/procedure.dart';
 import 'package:podliczator2000/model/summary.dart';
@@ -39,6 +40,9 @@ class DatabaseProvider with ChangeNotifier {
 
   List<Summary> _summaries = [];
   List<Summary> get summaries => _summaries;
+
+  List<CategorySummary> _categorySummaries = [];
+  List<CategorySummary> get categorySummaries => _categorySummaries;
 
   Database? _database;
   Future<Database> get database async {
@@ -184,5 +188,29 @@ class DatabaseProvider with ChangeNotifier {
         return _summaries;
       });
     });
+  }
+
+  Future<List<CategorySummary>> getCategoriesSummary(String date) async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      return await txn.rawQuery(
+          '''SELECT planner.date,category.name as CATEGORY_NAME, COUNT(category.id) as CATEGORY_ENTRIES FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id WHERE planner.date = "$date" group by category.id order by category.name''').then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+
+        List<CategorySummary> categorySummariesList = List.generate(
+            converted.length,
+            (index) => CategorySummary.fromString(converted[index]));
+
+        _categorySummaries = categorySummariesList;
+        notifyListeners();
+
+        return _categorySummaries;
+      });
+    });
+  }
+
+  double calculateTotalCategories() {
+    return _categorySummaries.fold(0.0,
+        (previousValue, element) => previousValue + element.categoryEntries);
   }
 }

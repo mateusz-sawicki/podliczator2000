@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
+import 'package:podliczator2000/widgets/summary_screen/summary_category_chart.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_data_table.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_total.dart';
 import 'package:provider/provider.dart';
-import 'package:collection/collection.dart';
 import '../../model/summary.dart';
 
 class SummaryDetails extends StatefulWidget {
@@ -15,16 +15,23 @@ class SummaryDetails extends StatefulWidget {
 
 class _SummaryDetailsState extends State<SummaryDetails> {
   late Future _summaryList;
+  late Future _categorySummaryList;
 
   Future _getSummaryList() async {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
     return await provider.getSummary(provider.focusedDay);
   }
 
+  Future _getCategorySummaryList() async {
+    final provider = Provider.of<DatabaseProvider>(context, listen: false);
+    return await provider.getCategoriesSummary(provider.focusedDay);
+  }
+
   @override
   void initState() {
     super.initState();
     _summaryList = _getSummaryList();
+    _categorySummaryList = _getCategorySummaryList();
   }
 
   @override
@@ -38,6 +45,7 @@ class _SummaryDetailsState extends State<SummaryDetails> {
                   SummaryTotal(
                     summarySum: countSums(summaryList),
                   ),
+                  const Flexible(flex: 1, child: SummaryCategoryChart()),
                   Expanded(
                     child: SummaryDataTable(
                       summaryList: summaryList,
