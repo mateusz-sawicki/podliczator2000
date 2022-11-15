@@ -4,7 +4,6 @@ import 'package:podliczator2000/screen/diary_screen.dart';
 import 'package:podliczator2000/screen/menu.dart';
 import 'package:podliczator2000/screen/send_invoice_screen.dart';
 import 'package:podliczator2000/screen/summary_screen.dart';
-import 'package:podliczator2000/widgets/bottom_navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,9 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return Scaffold(
-      body: pages[_selectedIndex],
-      bottomNavigationBar:
-          BottomNavBar(index: _selectedIndex, onChangeTab: onChangeTab),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () async {
@@ -46,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
