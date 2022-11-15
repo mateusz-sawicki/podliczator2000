@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/screen/add_procedure_to_planner_screen.dart';
-import 'package:podliczator2000/screen/diary_screen.dart';
-import 'package:podliczator2000/screen/menu.dart';
-import 'package:podliczator2000/screen/send_invoice_screen.dart';
-import 'package:podliczator2000/screen/summary_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,23 +9,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
-  final pages = const [
-    DiaryScreen(),
-    SummaryScreen(),
-    SendInvoiceScreen(),
-    MenuScreen()
-  ];
-
   @override
   Widget build(BuildContext context) {
-    void onChangeTab(int index) {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
