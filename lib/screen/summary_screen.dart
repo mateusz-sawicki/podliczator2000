@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:podliczator2000/widgets/summary_screen/summary_details.dart';
+import 'package:podliczator2000/model/summary_period.dart';
+import 'package:podliczator2000/widgets/summary_screen/summary_fetcher.dart';
 
 class SummaryScreen extends StatefulWidget {
   const SummaryScreen({super.key});
@@ -31,7 +32,12 @@ class _SummaryScreenState extends State<SummaryScreen> {
               )
             ]),
           ),
-          body: SummaryDetails(),
+          body: const TabBarView(children: [
+            SummaryFetcher(period: SummaryPeriod.daily),
+            SummaryFetcher(period: SummaryPeriod.weekly),
+            SummaryFetcher(period: SummaryPeriod.monthly),
+            SummaryFetcher(period: SummaryPeriod.any),
+          ]),
         ));
   }
 }
