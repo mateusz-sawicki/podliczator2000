@@ -38,8 +38,11 @@ class PlannerList extends StatelessWidget {
                   )
                 ],
               )
-            : const Center(
-                child: EmptyPlanner(),
+            : Column(
+                children: [
+                  PlannersCount(plannerQuantity: plannerList.length),
+                  const Expanded(child: EmptyPlanner()),
+                ],
               );
       },
     );
