@@ -22,7 +22,7 @@ class _SummaryCategoryChartState extends State<SummaryCategoryChart> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Padding(
-              padding: EdgeInsets.only(left: 10),
+              padding: EdgeInsets.only(top: 10, left: 10),
               child: Text("Procedury: "),
             ),
             Center(
