@@ -7,8 +7,7 @@ class EmptyPlanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.zero,
-      color: Colors.white,
+      padding: const EdgeInsets.only(bottom: 70),
       constraints: const BoxConstraints.expand(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

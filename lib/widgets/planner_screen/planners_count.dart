@@ -11,7 +11,6 @@ class PlannersCount extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.only(top: 15, left: 18, right: 18, bottom: 5),
         child: SizedBox(
-          width: double.infinity,
           height: 50,
           child: Card(
             margin: EdgeInsets.zero,
@@ -37,7 +36,7 @@ class PlannersCount extends StatelessWidget {
                     );
                   },
                   child: Center(
-                    child: Text('Wykonanych procedur: $plannerQuantity',
+                    child: Text(plannerQuantity.toString(),
                         style: GoogleFonts.merriweatherSans(
                             fontWeight: FontWeight.w700,
                             fontSize: 20,

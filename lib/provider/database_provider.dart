@@ -32,7 +32,7 @@ class DatabaseProvider with ChangeNotifier {
         : _procedures;
   }
 
-  String _focusedDay = Constants().formatter.format(DateTime.now());
+  String _focusedDay = Constants().sqlDateFormat.format(DateTime.now());
   String get focusedDay => _focusedDay;
   set focusedDay(String value) {
     _focusedDay = value;
@@ -52,14 +52,14 @@ class DatabaseProvider with ChangeNotifier {
   List<CategorySummary> _categorySummaries = [];
   List<CategorySummary> get categorySummaries => _categorySummaries;
 
-  String _startDate = Constants().formatter.format(DateTime.now());
+  String _startDate = Constants().sqlDateFormat.format(DateTime.now());
   String get startDate => _startDate;
   set startDate(String value) {
     _startDate = value;
     notifyListeners();
   }
 
-  String _endDate = Constants().formatter.format(DateTime.now());
+  String _endDate = Constants().sqlDateFormat.format(DateTime.now());
   String get endDate => _endDate;
   set endDate(String value) {
     _endDate = value;
@@ -275,29 +275,31 @@ class DatabaseProvider with ChangeNotifier {
 
   String getStartOfWeek(DateTime date) {
     return Constants()
-        .formatter
+        .sqlDateFormat
         .format(date.subtract(Duration(days: date.weekday - 1)));
   }
 
   String getEndOfWeek(DateTime date) {
     return Constants()
-        .formatter
+        .sqlDateFormat
         .format(date.add(Duration(days: DateTime.daysPerWeek - date.weekday)));
   }
 
   String getStartOfMonth(DateTime date) {
-    return Constants().formatter.format(DateTime(date.year, date.month, 1));
+    return Constants().sqlDateFormat.format(DateTime(date.year, date.month, 1));
   }
 
   String getEndOfMonth(DateTime date) {
-    return Constants().formatter.format(DateTime(date.year, date.month + 1, 0));
+    return Constants()
+        .sqlDateFormat
+        .format(DateTime(date.year, date.month + 1, 0));
   }
 
   String getStartOfYear(DateTime date) {
-    return Constants().formatter.format(DateTime(date.year, 1, 1));
+    return Constants().sqlDateFormat.format(DateTime(date.year, 1, 1));
   }
 
   String getEndOfYear(DateTime date) {
-    return Constants().formatter.format(DateTime(date.year, 12, 31));
+    return Constants().sqlDateFormat.format(DateTime(date.year, 12, 31));
   }
 }

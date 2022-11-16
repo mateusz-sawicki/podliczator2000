@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
+import 'package:podliczator2000/widgets/focused_day_card.dart';
 import 'package:podliczator2000/widgets/planner_screen/empty_planner.dart';
 import 'package:podliczator2000/widgets/planner_screen/planners_count.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +18,15 @@ class PlannerList extends StatelessWidget {
         return plannerList.isNotEmpty
             ? Column(
                 children: [
-                  PlannersCount(plannerQuantity: plannerList.length),
+                  Row(
+                    children: [
+                      const Expanded(flex: 70, child: FocusedDayCard()),
+                      Expanded(
+                          flex: 30,
+                          child: PlannersCount(
+                              plannerQuantity: plannerList.length)),
+                    ],
+                  ),
                   Expanded(
                     child: ListView.builder(
                       itemCount: plannerList.length,
@@ -40,7 +49,15 @@ class PlannerList extends StatelessWidget {
               )
             : Column(
                 children: [
-                  PlannersCount(plannerQuantity: plannerList.length),
+                  Row(
+                    children: [
+                      const Expanded(flex: 70, child: FocusedDayCard()),
+                      Expanded(
+                          flex: 30,
+                          child: PlannersCount(
+                              plannerQuantity: plannerList.length)),
+                    ],
+                  ),
                   const Expanded(child: EmptyPlanner()),
                 ],
               );

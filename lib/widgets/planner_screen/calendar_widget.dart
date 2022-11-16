@@ -41,9 +41,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
             setState(() {
               _selectedDay = selectedDay;
               _focusedDay = focusedDay;
-              provider.focusedDay = Constants().formatter.format(focusedDay);
+              provider.focusedDay =
+                  Constants().sqlDateFormat.format(focusedDay);
             });
-            provider.getPlanners(Constants().formatter.format(_focusedDay));
+            provider.getPlanners(Constants().sqlDateFormat.format(_focusedDay));
           } else {
             showDatePicker(
                     context: context,
@@ -59,10 +60,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   }
                   _selectedDay = date;
                   _focusedDay = _selectedDay;
-                  provider
-                      .getPlanners(Constants().formatter.format(_focusedDay));
+                  provider.getPlanners(
+                      Constants().sqlDateFormat.format(_focusedDay));
                   provider.focusedDay =
-                      Constants().formatter.format(_focusedDay);
+                      Constants().sqlDateFormat.format(_focusedDay);
                 },
               ),
             );
