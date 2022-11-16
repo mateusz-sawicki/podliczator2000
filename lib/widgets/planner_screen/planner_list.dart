@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:podliczator2000/model/planner.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
-import 'package:podliczator2000/widgets/focused_day_card.dart';
 import 'package:podliczator2000/widgets/planner_screen/empty_planner.dart';
 import 'package:podliczator2000/widgets/planner_screen/planner_cards.dart';
-import 'package:podliczator2000/widgets/planner_screen/planners_count.dart';
 import 'package:provider/provider.dart';
 
 import 'planner_card.dart';
