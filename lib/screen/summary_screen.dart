@@ -26,7 +26,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(5),
                       topRight: Radius.circular(5)),
-                  color: Colors.grey[100]),
+                  color: Colors.grey[50]),
               tabs: const [
                 Tab(
                   text: 'Dzienne',
