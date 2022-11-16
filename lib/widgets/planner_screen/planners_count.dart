@@ -9,7 +9,8 @@ class PlannersCount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.only(top: 15, left: 18, right: 18, bottom: 5),
+        padding:
+            const EdgeInsets.only(top: 15, left: 18, right: 18, bottom: 15),
         child: SizedBox(
           height: 50,
           child: Card(
