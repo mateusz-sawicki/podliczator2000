@@ -17,9 +17,17 @@ class _SummaryScreenState extends State<SummaryScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Podsumowanie'),
-            bottom: const TabBar(
+            elevation: 0,
+            bottom: TabBar(
               labelPadding: EdgeInsets.zero,
-              tabs: [
+              labelColor: Colors.blue,
+              unselectedLabelColor: Colors.white,
+              indicator: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5)),
+                  color: Colors.grey[100]),
+              tabs: const [
                 Tab(
                   text: 'Dzienne',
                 ),
