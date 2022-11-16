@@ -38,6 +38,7 @@ class _SummaryCategoryChartState extends State<SummaryCategoryChart> {
                   child: PieChart(
                     PieChartData(
                       centerSpaceRadius: 30.0,
+                      sectionsSpace: 1,
                       sections: total != 0
                           ? list
                               .map(
