@@ -52,6 +52,20 @@ class DatabaseProvider with ChangeNotifier {
   List<CategorySummary> _categorySummaries = [];
   List<CategorySummary> get categorySummaries => _categorySummaries;
 
+  String _startDate = Constants().formatter.format(DateTime.now());
+  String get startDate => _startDate;
+  set startDate(String value) {
+    _startDate = value;
+    notifyListeners();
+  }
+
+  String _endDate = Constants().formatter.format(DateTime.now());
+  String get endDate => _endDate;
+  set endDate(String value) {
+    _endDate = value;
+    notifyListeners();
+  }
+
   Database? _database;
   Future<Database> get database async {
     final dbDirectory = await getDatabasesPath();
@@ -201,7 +215,7 @@ class DatabaseProvider with ChangeNotifier {
   }
 
   Future<List<CategorySummary>> getCategoriesSummary(String date) async {
-    DateTime dateInDateTime = DateTime.parse(date);
+    DateTime dateInDateTime;
 
     String periodQuery =
         '''strftime('%Y-%m-%d', planner.date) BETWEEN "$date" and "$date"''';
@@ -210,14 +224,28 @@ class DatabaseProvider with ChangeNotifier {
           '''strftime('%Y-%m-%d', planner.date) BETWEEN "$date" and "$date"''';
     }
     if (period == SummaryPeriod.weekly) {
+      dateInDateTime = DateTime.parse(date);
       String startDay = getStartOfWeek(dateInDateTime);
       String endDay = getEndOfWeek(dateInDateTime);
       periodQuery =
           '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
     }
     if (period == SummaryPeriod.monthly) {
+      dateInDateTime = DateTime.parse(date);
       String startDay = getStartOfMonth(dateInDateTime);
       String endDay = getEndOfMonth(dateInDateTime);
+      periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
+    }
+    if (period == SummaryPeriod.any) {
+      var splittedDate = date.split(";");
+      dateInDateTime = DateTime.parse(splittedDate[0]);
+      String startDay = getStartOfYear(dateInDateTime);
+      String endDay = getEndOfYear(dateInDateTime);
+      if (date.split(";").length == 2) {
+        startDay = date.split(";")[0];
+        endDay = date.split(";")[1];
+      }
       periodQuery =
           '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
     }
@@ -263,5 +291,13 @@ class DatabaseProvider with ChangeNotifier {
 
   String getEndOfMonth(DateTime date) {
     return Constants().formatter.format(DateTime(date.year, date.month + 1, 0));
+  }
+
+  String getStartOfYear(DateTime date) {
+    return Constants().formatter.format(DateTime(date.year, 1, 1));
+  }
+
+  String getEndOfYear(DateTime date) {
+    return Constants().formatter.format(DateTime(date.year, 12, 31));
   }
 }

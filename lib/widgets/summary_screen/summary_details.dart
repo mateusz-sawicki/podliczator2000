@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:podliczator2000/model/summary_period.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_category_chart.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_data_table.dart';
@@ -21,6 +22,9 @@ class _SummaryDetailsState extends State<SummaryDetails> {
 
   Future _getCategorySummaryList() async {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
+    if (provider.period == SummaryPeriod.any) {
+      return await provider.getCategoriesSummary(provider.focusedDay);
+    }
     return await provider.getCategoriesSummary(provider.focusedDay);
   }
 
