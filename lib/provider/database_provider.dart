@@ -221,11 +221,11 @@ class DatabaseProvider with ChangeNotifier {
       periodQuery =
           '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
     }
-    //TODO: dowolny okres czasu
+
     final db = await database;
     return await db.transaction((txn) async {
       return await txn.rawQuery(
-          '''SELECT planner.date,category.name as CATEGORY_NAME, COUNT(category.id) as CATEGORY_ENTRIES FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id WHERE $periodQuery group by category.id order by category.name''').then((data) {
+          '''SELECT category.name as CATEGORY_NAME, COUNT(category.id) as CATEGORY_ENTRIES FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id WHERE $periodQuery group by category.id order by category_entries desc''').then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
         List<CategorySummary> categorySummariesList = List.generate(
