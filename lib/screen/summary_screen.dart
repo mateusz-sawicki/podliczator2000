@@ -17,27 +17,32 @@ class _SummaryScreenState extends State<SummaryScreen> {
         child: Scaffold(
           appBar: AppBar(
             title: const Text('Podsumowanie'),
-            bottom: const TabBar(labelPadding: EdgeInsets.zero, tabs: [
-              Tab(
-                text: 'Dzienne',
-              ),
-              Tab(
-                text: 'Tygodniowe',
-              ),
-              Tab(
-                text: 'Miesięczne',
-              ),
-              Tab(
-                text: 'Dowolne',
-              )
-            ]),
+            bottom: const TabBar(
+              labelPadding: EdgeInsets.zero,
+              tabs: [
+                Tab(
+                  text: 'Dzienne',
+                ),
+                Tab(
+                  text: 'Tygodniowe',
+                ),
+                Tab(
+                  text: 'Miesięczne',
+                ),
+                Tab(
+                  text: 'Dowolne',
+                )
+              ],
+            ),
           ),
-          body: const TabBarView(children: [
-            SummaryFetcher(period: SummaryPeriod.daily),
-            SummaryFetcher(period: SummaryPeriod.weekly),
-            SummaryFetcher(period: SummaryPeriod.monthly),
-            SummaryFetcher(period: SummaryPeriod.any),
-          ]),
+          body: const TabBarView(
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                SummaryFetcher(period: SummaryPeriod.daily),
+                SummaryFetcher(period: SummaryPeriod.weekly),
+                SummaryFetcher(period: SummaryPeriod.monthly),
+                SummaryFetcher(period: SummaryPeriod.any),
+              ]),
         ));
   }
 }
