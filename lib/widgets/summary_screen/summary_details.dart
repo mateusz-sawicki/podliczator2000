@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/model/summary_period.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
+import 'package:podliczator2000/widgets/planner_screen/empty_planner.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_category_chart.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_data_table.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_total.dart';
 import 'package:provider/provider.dart';
 import '../../model/summary.dart';
+import 'empty_summary.dart';
 
 class SummaryDetails extends StatefulWidget {
   const SummaryDetails({super.key});
@@ -54,7 +56,7 @@ class _SummaryDetailsState extends State<SummaryDetails> {
                   ),
                 ],
               )
-            : const Center(child: Text("PUSTE PODSUMOWANIE"));
+            : const Center(child: EmptySummary());
       },
     );
   }
