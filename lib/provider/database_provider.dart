@@ -195,12 +195,10 @@ class DatabaseProvider with ChangeNotifier {
   }
 
   Future<List<Summary>> getSummary(String date) async {
-    //TODO: podsumowania kasy i procedur
-
     final db = await database;
     return await db.transaction((txn) async {
       return await txn.rawQuery(
-          '''SELECT planner.date, planner.procedure_id as PROCEDURE_ID, procedure.name as PROCEDURE_NAME, procedure.amount as PROCEDURE_AMOUNT, COUNT(procedure_id) as PROCEDURE_ENTRIES, SUM(PROCEDURE.AMOUNT) as PROCEDURE_SUM, category.name as CATEGORY_NAME, price_list.name as PRICE_LIST_NAME FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id INNER JOIN price_list on category.price_list_id = price_list.id WHERE planner.date = "$date" group by procedure_id order by procedure.name''').then((data) {
+          '''SELECT planner.date, planner.procedure_id as PROCEDURE_ID, procedure.name as PROCEDURE_NAME, procedure.amount as PROCEDURE_AMOUNT, COUNT(procedure_id) as PROCEDURE_ENTRIES, SUM(PROCEDURE.AMOUNT) as PROCEDURE_SUM, category.name as CATEGORY_NAME, price_list.name as PRICE_LIST_NAME FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id INNER JOIN price_list on category.price_list_id = price_list.id WHERE ${setSqlQueryForSummary(period, date)} group by procedure_id order by procedure.name''').then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
         List<Summary> summariesList = List.generate(
@@ -215,45 +213,10 @@ class DatabaseProvider with ChangeNotifier {
   }
 
   Future<List<CategorySummary>> getCategoriesSummary(String date) async {
-    DateTime dateInDateTime;
-
-    String periodQuery =
-        '''strftime('%Y-%m-%d', planner.date) BETWEEN "$date" and "$date"''';
-    if (period == SummaryPeriod.daily) {
-      periodQuery =
-          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$date" and "$date"''';
-    }
-    if (period == SummaryPeriod.weekly) {
-      dateInDateTime = DateTime.parse(date);
-      String startDay = getStartOfWeek(dateInDateTime);
-      String endDay = getEndOfWeek(dateInDateTime);
-      periodQuery =
-          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
-    }
-    if (period == SummaryPeriod.monthly) {
-      dateInDateTime = DateTime.parse(date);
-      String startDay = getStartOfMonth(dateInDateTime);
-      String endDay = getEndOfMonth(dateInDateTime);
-      periodQuery =
-          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
-    }
-    if (period == SummaryPeriod.any) {
-      var splittedDate = date.split(";");
-      dateInDateTime = DateTime.parse(splittedDate[0]);
-      String startDay = getStartOfYear(dateInDateTime);
-      String endDay = getEndOfYear(dateInDateTime);
-      if (date.split(";").length == 2) {
-        startDay = date.split(";")[0];
-        endDay = date.split(";")[1];
-      }
-      periodQuery =
-          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
-    }
-
     final db = await database;
     return await db.transaction((txn) async {
       return await txn.rawQuery(
-          '''SELECT category.name as CATEGORY_NAME, COUNT(category.id) as CATEGORY_ENTRIES FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id WHERE $periodQuery group by category.id order by category_entries desc''').then((data) {
+          '''SELECT category.name as CATEGORY_NAME, COUNT(category.id) as CATEGORY_ENTRIES FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id WHERE ${setSqlQueryForSummary(period, date)} group by category.id order by category_entries desc''').then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
         List<CategorySummary> categorySummariesList = List.generate(
@@ -301,5 +264,41 @@ class DatabaseProvider with ChangeNotifier {
 
   String getEndOfYear(DateTime date) {
     return Constants().sqlDateFormat.format(DateTime(date.year, 12, 31));
+  }
+
+  String setSqlQueryForSummary(SummaryPeriod period, String date) {
+    DateTime dateInDateTime;
+    String periodQuery = "";
+    if (period == SummaryPeriod.daily) {
+      return periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$date" and "$date"''';
+    }
+    if (period == SummaryPeriod.weekly) {
+      dateInDateTime = DateTime.parse(date);
+      String startDay = getStartOfWeek(dateInDateTime);
+      String endDay = getEndOfWeek(dateInDateTime);
+      return periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
+    }
+    if (period == SummaryPeriod.monthly) {
+      dateInDateTime = DateTime.parse(date);
+      String startDay = getStartOfMonth(dateInDateTime);
+      String endDay = getEndOfMonth(dateInDateTime);
+      return periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
+    }
+    if (period == SummaryPeriod.any) {
+      var splittedDate = date.split(";");
+      dateInDateTime = DateTime.parse(splittedDate[0]);
+      String startDay = getStartOfYear(dateInDateTime);
+      String endDay = getEndOfYear(dateInDateTime);
+      if (date.split(";").length == 2) {
+        startDay = date.split(";")[0];
+        endDay = date.split(";")[1];
+      }
+      return periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
+    }
+    return periodQuery;
   }
 }
