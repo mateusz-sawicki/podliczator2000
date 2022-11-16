@@ -20,6 +20,7 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
         child: Card(
       child: DataTable(
         sortColumnIndex: sortColumnIndex,
+        columnSpacing: 20,
         sortAscending: isAscending,
         columns: [
           DataColumn(
@@ -53,17 +54,13 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                   sortColumnIndex = columnIndex;
                   if (!isAscending) {
                     widget.summaryList.sort((summary1, summary2) =>
-                        compareValues(
-                            !isAscending,
-                            summary1.procedureEntries.toString(),
-                            summary2.procedureEntries.toString()));
+                        compareValues(!isAscending, summary1.procedureEntries,
+                            summary2.procedureEntries));
                     isAscending = true;
                   } else {
                     widget.summaryList.sort((summary1, summary2) =>
-                        compareValues(
-                            !isAscending,
-                            summary1.procedureEntries.toString(),
-                            summary2.procedureEntries.toString()));
+                        compareValues(!isAscending, summary1.procedureEntries,
+                            summary2.procedureEntries));
                     isAscending = false;
                   }
                 });
@@ -134,18 +131,29 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
 
   int compareValues<T>(bool ascending, T value1, T value2) {
     if (ascending == true &&
-        (value1.runtimeType == String && value1.runtimeType == String)) {
+        (value1.runtimeType == String && value2.runtimeType == String)) {
       return value1.toString().compareTo(value2.toString());
     } else if (ascending == false &&
-        (value1.runtimeType == String && value1.runtimeType == String)) {
+        (value1.runtimeType == String && value2.runtimeType == String)) {
       return value2.toString().compareTo(value1.toString());
     } else if (ascending == true &&
-        (value1.runtimeType == double && value1.runtimeType == double)) {
+        (value1.runtimeType == double && value2.runtimeType == double)) {
       return double.parse(value1.toString())
           .compareTo(double.parse(value2.toString()));
-    } else {
+    } else if (ascending == false &&
+        (value1.runtimeType == double && value2.runtimeType == double)) {
       return double.parse(value2.toString())
           .compareTo(double.parse(value1.toString()));
+    } else if ((ascending == true &&
+        (value1.runtimeType == int && value2.runtimeType == int))) {
+      return int.parse(value1.toString())
+          .compareTo(int.parse(value2.toString()));
+    } else if ((ascending == false &&
+        (value1.runtimeType == int && value2.runtimeType == int))) {
+      return int.parse(value2.toString())
+          .compareTo(int.parse(value1.toString()));
+    } else {
+      return value1.toString().compareTo(value2.toString());
     }
   }
 }

@@ -38,7 +38,6 @@ class _SummaryDetailsState extends State<SummaryDetails> {
 
 //TODO: dodać card z okresem wyświetlanego podsumowania
 //TODO: dodać możliwość przełączania okresu wyświetlanego podsumowania np. datepicke lub < [okres] >
-//TODO: naprawić błąd z nieprawidłowo wyświetlaną tabelą
 //TODO: dodać możliwość przewijania całego ekranu (prawdopodobnie sliver)
   @override
   Widget build(BuildContext context) {
