@@ -3,6 +3,7 @@ import 'package:podliczator2000/model/summary_period.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_chart_card.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_data_table.dart';
+import 'package:podliczator2000/widgets/summary_screen/summary_date.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_total.dart';
 import 'package:provider/provider.dart';
 import '../../model/summary.dart';
@@ -48,6 +49,7 @@ class _SummaryDetailsState extends State<SummaryDetails> {
                 padding: const EdgeInsets.all(8.0),
                 child: CustomScrollView(
                   slivers: [
+                    const SliverToBoxAdapter(child: SummaryDate()),
                     SliverToBoxAdapter(
                       child: SummaryTotal(summarySum: countSums(summaryList)),
                     ),
@@ -62,7 +64,15 @@ class _SummaryDetailsState extends State<SummaryDetails> {
                   ],
                 ),
               )
-            : const Center(child: EmptySummary());
+            : Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: const [
+                    Expanded(flex: 8, child: SummaryDate()),
+                    Expanded(flex: 92, child: EmptySummary()),
+                  ],
+                ),
+              );
       },
     );
   }
