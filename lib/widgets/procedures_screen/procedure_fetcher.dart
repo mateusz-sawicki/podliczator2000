@@ -37,7 +37,7 @@ class _ProcedureFetcherState extends State<ProcedureFetcher> {
             return Column(
               children: const [
                 ProcedureSearch(),
-                Expanded(child: ProcedureList())
+                ProcedureList(),
               ],
             );
           }

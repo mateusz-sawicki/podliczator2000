@@ -12,14 +12,15 @@ class ProcedureList extends StatelessWidget {
       builder: (_, db, __) {
         var proceduresList = db.procedures;
         return proceduresList.isNotEmpty
-            ? ListView.separated(
+            ? Expanded(
+                child: ListView.separated(
                 itemCount: proceduresList.length,
                 itemBuilder: (_, i) {
                   return ProcedureListTile(proceduresList[i]);
                 },
                 separatorBuilder: (context, index) =>
                     const Divider(height: 1, color: Colors.grey),
-              )
+              ))
             : const Center(
                 child: Text('Brak procedur w bazie danych'),
               );
