@@ -15,6 +15,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
     return DefaultTabController(
         length: 4,
         child: Scaffold(
+          backgroundColor: Colors.grey[300],
           appBar: AppBar(
             title: const Text('Podsumowanie'),
             elevation: 0,
@@ -26,7 +27,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(5),
                       topRight: Radius.circular(5)),
-                  color: Colors.grey[50]),
+                  color: Colors.grey[300]),
               tabs: const [
                 Tab(
                   text: 'Dzienne',

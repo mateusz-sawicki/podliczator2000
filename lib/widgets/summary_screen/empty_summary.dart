@@ -6,18 +6,27 @@ class EmptySummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.only(bottom: 70),
-      constraints: const BoxConstraints.expand(),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Icon(MdiIcons.playlistRemove, size: 250, color: Colors.grey[300]),
-          Text('Brak procedur',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 25, color: Colors.grey[300])),
-        ],
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.only(bottom: 70),
+            constraints: const BoxConstraints.expand(),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Icon(MdiIcons.playlistRemove,
+                    size: 250, color: Colors.grey[500]),
+                Text('Brak procedur',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 25, color: Colors.grey[500])),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

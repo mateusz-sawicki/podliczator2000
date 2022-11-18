@@ -18,6 +18,9 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         child: Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
       child: DataTable(
         sortColumnIndex: sortColumnIndex,
         columnSpacing: 20,

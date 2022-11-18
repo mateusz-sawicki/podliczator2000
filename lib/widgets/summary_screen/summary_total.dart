@@ -11,25 +11,28 @@ class SummaryTotal extends StatelessWidget {
       width: double.infinity,
       height: 80,
       child: Card(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 10),
-            child: Text("Saldo:"),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
           ),
-          Center(
-            child: Text(
-                NumberFormat.currency(locale: 'pl_PL', symbol: 'zł')
-                    .format(summarySum),
-                style: const TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 30,
-                )),
-          )
-        ],
-      )),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Text("Saldo:"),
+              ),
+              Center(
+                child: Text(
+                    NumberFormat.currency(locale: 'pl_PL', symbol: 'zł')
+                        .format(summarySum),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 30,
+                    )),
+              )
+            ],
+          )),
     );
   }
 }

@@ -15,7 +15,7 @@ class PlannerCard extends StatelessWidget {
         dense: true,
         contentPadding:
             const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
-        tileColor: Colors.grey[200],
+        tileColor: Colors.grey[50],
         title: Padding(
           padding: const EdgeInsets.only(left: 8, bottom: 5),
           child: Text(
