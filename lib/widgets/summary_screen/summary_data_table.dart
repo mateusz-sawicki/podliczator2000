@@ -16,120 +16,124 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
-      child: DataTable(
-        sortColumnIndex: sortColumnIndex,
-        columnSpacing: 20,
-        sortAscending: isAscending,
-        columns: [
-          DataColumn(
-              label: const Text(
-                "Procedury",
-                style: TextStyle(fontSize: 16),
-              ),
-              onSort: (columnIndex, _) {
-                setState(() {
-                  sortColumnIndex = columnIndex;
-                  if (isAscending) {
-                    widget.summaryList.sort((summary1, summary2) =>
-                        compareValues(isAscending, summary1.procedureName,
-                            summary2.procedureName));
-                    isAscending = false;
-                  } else {
-                    widget.summaryList.sort((summary1, summary2) =>
-                        compareValues(isAscending, summary1.procedureName,
-                            summary2.procedureName));
-                    isAscending = true;
-                  }
-                });
-              }),
-          DataColumn(
-              label: const Text(
-                "Ilość",
-                style: TextStyle(fontSize: 16),
-              ),
-              onSort: (columnIndex, _) {
-                setState(() {
-                  sortColumnIndex = columnIndex;
-                  if (!isAscending) {
-                    widget.summaryList.sort((summary1, summary2) =>
-                        compareValues(!isAscending, summary1.procedureEntries,
-                            summary2.procedureEntries));
-                    isAscending = true;
-                  } else {
-                    widget.summaryList.sort((summary1, summary2) =>
-                        compareValues(!isAscending, summary1.procedureEntries,
-                            summary2.procedureEntries));
-                    isAscending = false;
-                  }
-                });
-              }),
-          DataColumn(
-              label: const Text(
-                "Suma",
-                style: TextStyle(fontSize: 16),
-              ),
-              onSort: (columnIndex, _) {
-                setState(() {
-                  sortColumnIndex = columnIndex;
+    return Container(
+      constraints:
+          const BoxConstraints(minWidth: double.infinity, maxHeight: 620),
+      child: SingleChildScrollView(
+          child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: DataTable(
+          sortColumnIndex: sortColumnIndex,
+          columnSpacing: 20,
+          sortAscending: isAscending,
+          columns: [
+            DataColumn(
+                label: const Text(
+                  "Procedury",
+                  style: TextStyle(fontSize: 16),
+                ),
+                onSort: (columnIndex, _) {
+                  setState(() {
+                    sortColumnIndex = columnIndex;
+                    if (isAscending) {
+                      widget.summaryList.sort((summary1, summary2) =>
+                          compareValues(isAscending, summary1.procedureName,
+                              summary2.procedureName));
+                      isAscending = false;
+                    } else {
+                      widget.summaryList.sort((summary1, summary2) =>
+                          compareValues(isAscending, summary1.procedureName,
+                              summary2.procedureName));
+                      isAscending = true;
+                    }
+                  });
+                }),
+            DataColumn(
+                label: const Text(
+                  "Ilość",
+                  style: TextStyle(fontSize: 16),
+                ),
+                onSort: (columnIndex, _) {
+                  setState(() {
+                    sortColumnIndex = columnIndex;
+                    if (!isAscending) {
+                      widget.summaryList.sort((summary1, summary2) =>
+                          compareValues(!isAscending, summary1.procedureEntries,
+                              summary2.procedureEntries));
+                      isAscending = true;
+                    } else {
+                      widget.summaryList.sort((summary1, summary2) =>
+                          compareValues(!isAscending, summary1.procedureEntries,
+                              summary2.procedureEntries));
+                      isAscending = false;
+                    }
+                  });
+                }),
+            DataColumn(
+                label: const Text(
+                  "Suma",
+                  style: TextStyle(fontSize: 16),
+                ),
+                onSort: (columnIndex, _) {
+                  setState(() {
+                    sortColumnIndex = columnIndex;
 
-                  if (!isAscending) {
-                    widget.summaryList.sort((summary1, summary2) =>
-                        compareValues(!isAscending, summary1.procedureSum,
-                            summary2.procedureSum));
-                    isAscending = true;
-                  } else {
-                    widget.summaryList.sort((summary1, summary2) =>
-                        compareValues(!isAscending, summary1.procedureSum,
-                            summary2.procedureSum));
-                    isAscending = false;
-                  }
-                });
-              }),
-        ],
-        rows: widget.summaryList
-            .map<DataRow>((element) => DataRow(cells: [
-                  DataCell(
-                    Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            element.procedureName,
-                            style: const TextStyle(
-                                fontSize: 13,
-                                overflow: TextOverflow.ellipsis,
-                                fontWeight: FontWeight.w700),
-                            maxLines: 5,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(element.categoryName,
-                              style: const TextStyle(fontSize: 12)),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                              "Cena: ${NumberFormat.currency(locale: 'pl_PL', symbol: 'zł').format(element.procedureAmount)}",
+                    if (!isAscending) {
+                      widget.summaryList.sort((summary1, summary2) =>
+                          compareValues(!isAscending, summary1.procedureSum,
+                              summary2.procedureSum));
+                      isAscending = true;
+                    } else {
+                      widget.summaryList.sort((summary1, summary2) =>
+                          compareValues(!isAscending, summary1.procedureSum,
+                              summary2.procedureSum));
+                      isAscending = false;
+                    }
+                  });
+                }),
+          ],
+          rows: widget.summaryList
+              .map<DataRow>((element) => DataRow(cells: [
+                    DataCell(
+                      Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              element.procedureName,
                               style: const TextStyle(
-                                fontSize: 12,
-                              )),
-                        ]),
-                  ),
-                  DataCell(Text(element.procedureEntries.toString())),
-                  DataCell(Text(
-                      NumberFormat.currency(locale: 'pl_PL', symbol: 'zł')
-                          .format(element.procedureSum))),
-                ]))
-            .toList(),
-        dataRowHeight: MediaQuery.of(context).size.height / 7,
-      ),
-    ));
+                                  fontSize: 13,
+                                  overflow: TextOverflow.ellipsis,
+                                  fontWeight: FontWeight.w700),
+                              maxLines: 5,
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(element.categoryName,
+                                style: const TextStyle(fontSize: 12)),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                                "Cena: ${NumberFormat.currency(locale: 'pl_PL', symbol: 'zł').format(element.procedureAmount)}",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                )),
+                          ]),
+                    ),
+                    DataCell(Text(element.procedureEntries.toString())),
+                    DataCell(Text(
+                        NumberFormat.currency(locale: 'pl_PL', symbol: 'zł')
+                            .format(element.procedureSum))),
+                  ]))
+              .toList(),
+          dataRowHeight: MediaQuery.of(context).size.height / 7,
+        ),
+      )),
+    );
   }
 
   int compareValues<T>(bool ascending, T value1, T value2) {
