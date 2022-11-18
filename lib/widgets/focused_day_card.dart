@@ -13,33 +13,30 @@ class FocusedDayCard extends StatelessWidget {
     final date =
         Constants().dateFormat.format(DateTime.parse(provider.focusedDay));
 
-    return Padding(
-        padding:
-            const EdgeInsets.only(top: 15, left: 18, right: 18, bottom: 15),
-        child: SizedBox(
-          height: 50,
-          child: Card(
-            margin: EdgeInsets.zero,
-            borderOnForeground: false,
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                  ),
-                ],
+    return SizedBox(
+      height: 50,
+      child: Card(
+        margin: const EdgeInsets.only(right: 5),
+        borderOnForeground: false,
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.1),
+                spreadRadius: 3,
+                blurRadius: 5,
               ),
-              child: Center(
-                child: Text(date,
-                    style: GoogleFonts.merriweatherSans(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                        color: Colors.blue)),
-              ),
-            ),
+            ],
           ),
-        ));
+          child: Center(
+            child: Text(date,
+                style: GoogleFonts.merriweatherSans(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                    color: Colors.blue)),
+          ),
+        ),
+      ),
+    );
   }
 }

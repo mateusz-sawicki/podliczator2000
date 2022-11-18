@@ -7,32 +7,29 @@ class PlannersCount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15, left: 18, right: 18, bottom: 15),
-      child: SizedBox(
-        height: 50,
-        child: Card(
-          margin: EdgeInsets.zero,
-          borderOnForeground: false,
-          color: Colors.blue,
-          child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.1),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                  ),
-                ],
-              ),
-              child: Center(
-                child: Text(plannerQuantity.toString(),
-                    style: GoogleFonts.merriweatherSans(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                        color: Colors.white)),
-              )),
-        ),
+    return SizedBox(
+      height: 50,
+      child: Card(
+        margin: const EdgeInsets.only(left: 5),
+        borderOnForeground: false,
+        color: Colors.blue,
+        child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.1),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                ),
+              ],
+            ),
+            child: Center(
+              child: Text(plannerQuantity.toString(),
+                  style: GoogleFonts.merriweatherSans(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
+                      color: Colors.white)),
+            )),
       ),
     );
   }

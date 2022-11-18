@@ -15,6 +15,10 @@ class PlannerCards extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+        style: TextButton.styleFrom(
+          minimumSize: Size.zero,
+          padding: EdgeInsets.zero,
+        ),
         onPressed: () {
           Navigator.push(
             context,
@@ -23,14 +27,18 @@ class PlannerCards extends StatelessWidget {
             ),
           );
         },
-        child: Center(
-          child: Row(
-            children: [
-              const Expanded(flex: 70, child: FocusedDayCard()),
-              Expanded(
-                  flex: 30,
-                  child: PlannersCount(plannerQuantity: plannerList.length)),
-            ],
+        child: Padding(
+          padding:
+              const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 7),
+          child: Center(
+            child: Row(
+              children: [
+                const Expanded(flex: 70, child: FocusedDayCard()),
+                Expanded(
+                    flex: 30,
+                    child: PlannersCount(plannerQuantity: plannerList.length)),
+              ],
+            ),
           ),
         ));
   }
