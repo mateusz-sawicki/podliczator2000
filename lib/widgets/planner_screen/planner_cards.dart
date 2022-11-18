@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/model/planner.dart';
 import 'package:podliczator2000/screen/summary_screen.dart';
-import 'package:podliczator2000/widgets/focused_day_card.dart';
+import 'package:podliczator2000/widgets/planner_screen/focused_day_card.dart';
 import 'package:podliczator2000/widgets/planner_screen/planners_count.dart';
 
 class PlannerCards extends StatelessWidget {
