@@ -38,20 +38,21 @@ class _SummaryDetailsState extends State<SummaryDetails> {
 
 //TODO: dodać card z okresem wyświetlanego podsumowania
 //TODO: dodać możliwość przełączania okresu wyświetlanego podsumowania np. datepicke lub < [okres] >
-//TODO: dodać możliwość przewijania całego ekranu (prawdopodobnie sliver)
   @override
   Widget build(BuildContext context) {
     return Consumer<DatabaseProvider>(
       builder: (_, db, __) {
         var summaryList = db.summaries;
         return summaryList.isNotEmpty
-            ? Column(
-                children: [
-                  SummaryTotal(
-                    summarySum: countSums(summaryList),
+            ? CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: SummaryTotal(summarySum: countSums(summaryList)),
                   ),
-                  const Flexible(flex: 1, child: SummaryCategoryChart()),
-                  Expanded(
+                  const SliverToBoxAdapter(
+                    child: SizedBox(height: 300, child: SummaryCategoryChart()),
+                  ),
+                  SliverToBoxAdapter(
                     child: SummaryDataTable(
                       summaryList: summaryList,
                     ),
