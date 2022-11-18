@@ -10,6 +10,9 @@ class PlannersCount extends StatelessWidget {
     return SizedBox(
       height: 50,
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         margin: const EdgeInsets.only(left: 5),
         borderOnForeground: false,
         color: Colors.blue,
