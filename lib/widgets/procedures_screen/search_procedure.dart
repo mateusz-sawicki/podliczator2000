@@ -19,6 +19,7 @@ class _ProcedureSearchState extends State<ProcedureSearch> {
     super.initState();
   }
 
+  //TODO: add remover in search field
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);

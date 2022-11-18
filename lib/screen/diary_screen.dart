@@ -20,7 +20,9 @@ class DiaryScreen extends StatelessWidget {
             hoverColor: Colors.transparent,
             child:
                 Text('podliczajka', style: GoogleFonts.pacifico(fontSize: 25)),
-            onTap: () {},
+            onTap: () {
+              //TODO: should back to today on tap
+            },
           )),
       body: const PlannerFetcher(),
     );
