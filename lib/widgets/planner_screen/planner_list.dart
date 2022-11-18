@@ -15,26 +15,15 @@ class PlannerList extends StatelessWidget {
       builder: (_, db, __) {
         var plannerList = db.planners;
         return plannerList.isNotEmpty
-            ? Column(
-                children: [
-                  PlannerCards(plannerList: plannerList),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: plannerList.length,
-                      itemBuilder: (_, i) {
-                        if (i == plannerList.length - 1) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                bottom: 15, left: 15, right: 15),
-                            child: PlannerCard(plannerList[i]),
-                          );
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: PlannerCard(plannerList[i]),
-                        );
-                      },
-                    ),
+            ? CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: PlannerCards(plannerList: plannerList),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                        (context, i) => PlannerCard(plannerList[i]),
+                        childCount: plannerList.length),
                   )
                 ],
               )
