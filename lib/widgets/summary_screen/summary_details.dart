@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/model/summary_period.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
-import 'package:podliczator2000/widgets/summary_screen/summary_category_chart.dart';
+import 'package:podliczator2000/widgets/summary_screen/summary_chart_card.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_data_table.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_total.dart';
 import 'package:provider/provider.dart';
@@ -44,20 +44,23 @@ class _SummaryDetailsState extends State<SummaryDetails> {
       builder: (_, db, __) {
         var summaryList = db.summaries;
         return summaryList.isNotEmpty
-            ? CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: SummaryTotal(summarySum: countSums(summaryList)),
-                  ),
-                  const SliverToBoxAdapter(
-                    child: SizedBox(height: 300, child: SummaryCategoryChart()),
-                  ),
-                  SliverToBoxAdapter(
-                    child: SummaryDataTable(
-                      summaryList: summaryList,
+            ? Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: SummaryTotal(summarySum: countSums(summaryList)),
                     ),
-                  ),
-                ],
+                    const SliverToBoxAdapter(
+                      child: SummaryChartCard(),
+                    ),
+                    SliverToBoxAdapter(
+                      child: SummaryDataTable(
+                        summaryList: summaryList,
+                      ),
+                    ),
+                  ],
+                ),
               )
             : const Center(child: EmptySummary());
       },
