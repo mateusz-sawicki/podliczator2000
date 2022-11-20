@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:podliczator2000/constants/constant.dart';
 import 'package:podliczator2000/model/summary_period.dart';
@@ -175,7 +176,8 @@ Widget pickedDateWidget(DateTime date, SummaryPeriod period) {
     padding: const EdgeInsets.all(8.0),
     child: Text(
       getPickedDateString(period, date),
-      style: const TextStyle(fontSize: 18, color: Colors.blue),
+      style: GoogleFonts.merriweatherSans(
+          fontWeight: FontWeight.w700, fontSize: 18, color: Colors.blue),
     ),
   );
 }
