@@ -23,6 +23,8 @@ class FocusedDayCard extends StatelessWidget {
         borderOnForeground: false,
         child: Container(
           decoration: BoxDecoration(
+            color: Colors.white,
+            shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
                 color: Colors.grey.withOpacity(0.1),
