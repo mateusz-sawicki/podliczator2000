@@ -23,7 +23,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting('pl-PL', null);
-    final provider = Provider.of<DatabaseProvider>(context, listen: false);
+    final provider = Provider.of<DatabaseProvider>(context, listen: true);
     return Container(
       decoration: const BoxDecoration(
           color: Colors.blue,
@@ -33,11 +33,11 @@ class _CalendarWidgetState extends State<CalendarWidget> {
         firstDay: _firstDay,
         lastDay: _lastDay,
         selectedDayPredicate: (day) {
-          return isSameDay(_selectedDay, day);
+          return isSameDay(DateTime.parse(provider.focusedDay), day);
         },
         rangeSelectionMode: RangeSelectionMode.disabled,
         onDaySelected: (selectedDay, focusedDay) {
-          if (!isSameDay(_selectedDay, selectedDay)) {
+          if (!isSameDay(DateTime.parse(provider.focusedDay), selectedDay)) {
             setState(() {
               _selectedDay = selectedDay;
               _focusedDay = focusedDay;

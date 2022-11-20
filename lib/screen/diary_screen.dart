@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:podliczator2000/constants/constant.dart';
+import 'package:podliczator2000/provider/database_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/planner_screen/planner_fetcher.dart';
 
@@ -22,7 +25,11 @@ class DiaryScreen extends StatelessWidget {
             child:
                 Text('podliczajka', style: GoogleFonts.pacifico(fontSize: 25)),
             onTap: () {
-              //TODO: should back to today on tap
+              final provider =
+                  Provider.of<DatabaseProvider>(context, listen: false);
+              provider.focusedDay =
+                  Constants().sqlDateFormat.format(DateTime.now());
+              provider.getPlanners(provider.focusedDay);
             },
           )),
       body: const PlannerFetcher(),
