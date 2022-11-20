@@ -39,7 +39,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                   text: 'Miesięczne',
                 ),
                 Tab(
-                  text: 'Dowolne',
+                  text: 'Roczne',
                 )
               ],
             ),
@@ -50,7 +50,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                 SummaryFetcher(period: SummaryPeriod.daily),
                 SummaryFetcher(period: SummaryPeriod.weekly),
                 SummaryFetcher(period: SummaryPeriod.monthly),
-                SummaryFetcher(period: SummaryPeriod.any),
+                SummaryFetcher(period: SummaryPeriod.yearly),
               ]),
         ));
   }

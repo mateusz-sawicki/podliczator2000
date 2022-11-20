@@ -2,5 +2,5 @@ enum SummaryPeriod {
   daily,
   weekly,
   monthly,
-  any,
+  yearly,
 }

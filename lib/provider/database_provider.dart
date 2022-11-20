@@ -59,20 +59,6 @@ class DatabaseProvider with ChangeNotifier {
   List<CategorySummary> _categorySummaries = [];
   List<CategorySummary> get categorySummaries => _categorySummaries;
 
-  String _startDate = Constants().sqlDateFormat.format(DateTime.now());
-  String get startDate => _startDate;
-  set startDate(String value) {
-    _startDate = value;
-    notifyListeners();
-  }
-
-  String _endDate = Constants().sqlDateFormat.format(DateTime.now());
-  String get endDate => _endDate;
-  set endDate(String value) {
-    _endDate = value;
-    notifyListeners();
-  }
-
   Database? _database;
   Future<Database> get database async {
     final dbDirectory = await getDatabasesPath();
@@ -294,7 +280,7 @@ class DatabaseProvider with ChangeNotifier {
       return periodQuery =
           '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
     }
-    if (period == SummaryPeriod.any) {
+    if (period == SummaryPeriod.yearly) {
       var splittedDate = date.split(";");
       dateInDateTime = DateTime.parse(splittedDate[0]);
       String startDay = getStartOfYear(dateInDateTime);

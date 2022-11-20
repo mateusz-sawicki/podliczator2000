@@ -24,7 +24,7 @@ class _SummaryDetailsState extends State<SummaryDetails> {
 
   Future _getCategorySummaryList() async {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
-    if (provider.period == SummaryPeriod.any) {
+    if (provider.period == SummaryPeriod.yearly) {
       return await provider.getCategoriesSummary(provider.focusedDay);
     }
     return await provider.getCategoriesSummary(provider.focusedDay);
