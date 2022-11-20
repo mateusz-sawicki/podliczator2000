@@ -15,7 +15,6 @@ class EmptyPlanner extends StatelessWidget {
           child: Center(
             child: Container(
               padding: const EdgeInsets.only(bottom: 70),
-              //constraints: const BoxConstraints.expand(),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
