@@ -39,6 +39,13 @@ class DatabaseProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  String _pickedDate = Constants().sqlDateFormat.format(DateTime.now());
+  String get pickedDate => _pickedDate;
+  set pickedDate(String value) {
+    _pickedDate = value;
+    notifyListeners();
+  }
+
   SummaryPeriod _period = SummaryPeriod.daily;
   SummaryPeriod get period => _period;
   set period(SummaryPeriod value) {

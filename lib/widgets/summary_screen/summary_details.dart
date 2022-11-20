@@ -30,11 +30,19 @@ class _SummaryDetailsState extends State<SummaryDetails> {
     return await provider.getCategoriesSummary(provider.focusedDay);
   }
 
+  Future _setPickedDate() async {
+    final provider = Provider.of<DatabaseProvider>(context, listen: false);
+    Future.delayed(Duration.zero, () {
+      return provider.pickedDate = provider.focusedDay;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _getSummaryList();
     _getCategorySummaryList();
+    _setPickedDate();
   }
 
 //TODO: dodać card z okresem wyświetlanego podsumowania

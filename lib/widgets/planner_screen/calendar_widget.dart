@@ -29,7 +29,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           color: Colors.blue,
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
       child: TableCalendar(
-        focusedDay: _focusedDay,
+        focusedDay: DateTime.parse(provider.focusedDay),
         firstDay: _firstDay,
         lastDay: _lastDay,
         selectedDayPredicate: (day) {
@@ -42,6 +42,8 @@ class _CalendarWidgetState extends State<CalendarWidget> {
               _selectedDay = selectedDay;
               _focusedDay = focusedDay;
               provider.focusedDay =
+                  Constants().sqlDateFormat.format(focusedDay);
+              provider.pickedDate =
                   Constants().sqlDateFormat.format(focusedDay);
             });
             provider.getPlanners(Constants().sqlDateFormat.format(_focusedDay));
