@@ -45,8 +45,6 @@ class _SummaryDetailsState extends State<SummaryDetails> {
     _setPickedDate();
   }
 
-//TODO: dodać card z okresem wyświetlanego podsumowania
-//TODO: dodać możliwość przełączania okresu wyświetlanego podsumowania np. datepicke lub < [okres] >
   @override
   Widget build(BuildContext context) {
     return Consumer<DatabaseProvider>(
