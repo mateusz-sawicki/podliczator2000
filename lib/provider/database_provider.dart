@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:podliczator2000/model/add_planner.dart';
+import 'package:podliczator2000/model/category_summary.dart';
 import 'package:podliczator2000/model/planner.dart';
 import 'package:podliczator2000/model/procedure.dart';
+import 'package:podliczator2000/model/summary.dart';
+import 'package:podliczator2000/model/summary_period.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -29,10 +32,38 @@ class DatabaseProvider with ChangeNotifier {
         : _procedures;
   }
 
-  String _focusedDay = Constants().formatter.format(DateTime.now());
+  String _focusedDay = Constants().sqlDateFormat.format(DateTime.now());
   String get focusedDay => _focusedDay;
   set focusedDay(String value) {
     _focusedDay = value;
+    notifyListeners();
+  }
+
+  String _pickedDate = Constants().sqlDateFormat.format(DateTime.now());
+  String get pickedDate => _pickedDate;
+  set pickedDate(String value) {
+    _pickedDate = value;
+    notifyListeners();
+  }
+
+  SummaryPeriod _period = SummaryPeriod.daily;
+  SummaryPeriod get period => _period;
+  set period(SummaryPeriod value) {
+    _period = value;
+    notifyListeners();
+  }
+
+  List<Summary> _summaries = [];
+  List<Summary> get summaries => _summaries;
+
+  List<CategorySummary> _categorySummaries = [];
+  List<CategorySummary> get categorySummaries => _categorySummaries;
+
+  int _procedureQuantity = 1;
+  int get procedureQuantity => _procedureQuantity;
+  set procedureQuantity(int value) {
+    if (value < 1) return;
+    _procedureQuantity = value;
     notifyListeners();
   }
 
@@ -60,19 +91,19 @@ class DatabaseProvider with ChangeNotifier {
 
   Future<void> _createDb(Database db, int version) async {
     await db.transaction((txn) async {
-      await txn.execute('''CREATE TABLE $userTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $userTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME TEXT
       )''');
 
-      await txn.execute('''CREATE TABLE $businessTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $businessTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME TEXT,
         USER_ID INTEGER,
         FOREIGN KEY(USER_ID) REFERENCES $userTable(ID)
       )''');
 
-      await txn.execute('''CREATE TABLE $priceListTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $priceListTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME TEXT,
         VALID_FROM TEXT,
@@ -81,14 +112,14 @@ class DatabaseProvider with ChangeNotifier {
         FOREIGN KEY(BUSINESS_ID) REFERENCES $businessTable(ID)
       )''');
 
-      await txn.execute('''CREATE TABLE $categoryTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $categoryTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME TEXT,
         PRICE_LIST_ID INTEGER,
         FOREIGN KEY(PRICE_LIST_ID) REFERENCES $priceListTable(ID)
       )''');
 
-      await txn.execute('''CREATE TABLE $procedureTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $procedureTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         NAME TEXT,
         AMOUNT REAL,
@@ -96,7 +127,7 @@ class DatabaseProvider with ChangeNotifier {
         FOREIGN KEY(CATEGORY_ID) REFERENCES $categoryTable(ID)
       )''');
 
-      await txn.execute('''CREATE TABLE $plannerTable(
+      await txn.execute('''CREATE TABLE IF NOT EXISTS $plannerTable(
         ID INTEGER PRIMARY KEY AUTOINCREMENT,
         DATE TEXT,
         PROCEDURE_ID INTEGER,
@@ -109,7 +140,7 @@ class DatabaseProvider with ChangeNotifier {
     final db = await database;
     return await db.transaction((txn) async {
       return await txn.rawQuery(
-          '''SELECT planner.id, planner.date, planner.procedure_id, procedure.name as PROCEDURE_NAME, category.name as CATEGORY_NAME, price_list.name as PRICE_LIST_NAME FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id INNER JOIN price_list on category.price_list_id = price_list.id WHERE planner.date = "$date"''').then((data) {
+          '''SELECT planner.id, planner.date, planner.procedure_id as PROCEDURE_ID, procedure.name as PROCEDURE_NAME, category.name as CATEGORY_NAME, price_list.name as PRICE_LIST_NAME FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id INNER JOIN price_list on category.price_list_id = price_list.id WHERE planner.date = "$date"''').then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
         List<Planner> plannersList = List.generate(
@@ -149,23 +180,128 @@ class DatabaseProvider with ChangeNotifier {
     });
   }
 
-  Future<void> addPlanner(AddPlanner planner) async {
+  Future<void> addPlanner(AddPlanner planner, int quantity) async {
     final db = await database;
     await db.transaction((txn) async {
-      await txn
-          .insert(
-        plannerTable,
-        planner.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      )
-          .then((generatedId) {
-        // final newPlanner = AddPlanner(
-        //     id: generatedId,
-        //     date: planner.date,
-        //     procedureId: planner.procedureId);
-        // _planners.add(newPlanner);
+      for (int i = 1; i <= quantity; i++) {
+        await txn
+            .insert(
+          plannerTable,
+          planner.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        )
+            .then((generatedId) {
+          notifyListeners();
+        });
+      }
+    });
+  }
+
+  Future<List<Summary>> getSummary(String date) async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      return await txn.rawQuery(
+          '''SELECT planner.date, planner.procedure_id as PROCEDURE_ID, procedure.name as PROCEDURE_NAME, procedure.amount as PROCEDURE_AMOUNT, COUNT(procedure_id) as PROCEDURE_ENTRIES, SUM(PROCEDURE.AMOUNT) as PROCEDURE_SUM, category.name as CATEGORY_NAME, price_list.name as PRICE_LIST_NAME FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id INNER JOIN price_list on category.price_list_id = price_list.id WHERE ${setSqlQueryForSummary(period, date)} group by procedure_id order by procedure.name''').then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+
+        List<Summary> summariesList = List.generate(
+            converted.length, (index) => Summary.fromString(converted[index]));
+
+        _summaries = summariesList;
         notifyListeners();
+
+        return _summaries;
       });
     });
+  }
+
+  Future<List<CategorySummary>> getCategoriesSummary(String date) async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      return await txn.rawQuery(
+          '''SELECT category.name as CATEGORY_NAME, COUNT(category.id) as CATEGORY_ENTRIES FROM planner INNER JOIN procedure ON planner.procedure_id = procedure.id INNER JOIN category ON procedure.category_id = category.id WHERE ${setSqlQueryForSummary(period, date)} group by category.id order by category_entries desc''').then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+
+        List<CategorySummary> categorySummariesList = List.generate(
+            converted.length,
+            (index) => CategorySummary.fromString(converted[index]));
+
+        _categorySummaries = categorySummariesList;
+        notifyListeners();
+
+        return _categorySummaries;
+      });
+    });
+  }
+
+  double calculateTotalCategories() {
+    return _categorySummaries.fold(0.0,
+        (previousValue, element) => previousValue + element.categoryEntries);
+  }
+
+  String getStartOfWeek(DateTime date) {
+    return Constants()
+        .sqlDateFormat
+        .format(date.subtract(Duration(days: date.weekday - 1)));
+  }
+
+  String getEndOfWeek(DateTime date) {
+    return Constants()
+        .sqlDateFormat
+        .format(date.add(Duration(days: DateTime.daysPerWeek - date.weekday)));
+  }
+
+  String getStartOfMonth(DateTime date) {
+    return Constants().sqlDateFormat.format(DateTime(date.year, date.month, 1));
+  }
+
+  String getEndOfMonth(DateTime date) {
+    return Constants()
+        .sqlDateFormat
+        .format(DateTime(date.year, date.month + 1, 0));
+  }
+
+  String getStartOfYear(DateTime date) {
+    return Constants().sqlDateFormat.format(DateTime(date.year, 1, 1));
+  }
+
+  String getEndOfYear(DateTime date) {
+    return Constants().sqlDateFormat.format(DateTime(date.year, 12, 31));
+  }
+
+  String setSqlQueryForSummary(SummaryPeriod period, String date) {
+    DateTime dateInDateTime;
+    String periodQuery = "";
+    if (period == SummaryPeriod.daily) {
+      return periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$date" and "$date"''';
+    }
+    if (period == SummaryPeriod.weekly) {
+      dateInDateTime = DateTime.parse(date);
+      String startDay = getStartOfWeek(dateInDateTime);
+      String endDay = getEndOfWeek(dateInDateTime);
+      return periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
+    }
+    if (period == SummaryPeriod.monthly) {
+      dateInDateTime = DateTime.parse(date);
+      String startDay = getStartOfMonth(dateInDateTime);
+      String endDay = getEndOfMonth(dateInDateTime);
+      return periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
+    }
+    if (period == SummaryPeriod.yearly) {
+      var splittedDate = date.split(";");
+      dateInDateTime = DateTime.parse(splittedDate[0]);
+      String startDay = getStartOfYear(dateInDateTime);
+      String endDay = getEndOfYear(dateInDateTime);
+      if (date.split(";").length == 2) {
+        startDay = date.split(";")[0];
+        endDay = date.split(";")[1];
+      }
+      return periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
+    }
+    return periodQuery;
   }
 }

@@ -17,37 +17,42 @@ class CalendarWidget extends StatefulWidget {
 class _CalendarWidgetState extends State<CalendarWidget> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
+  final _firstDay = DateTime.utc(1970, 01, 01);
+  final _lastDay = DateTime(DateTime.now().year + 10);
 
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting('pl-PL', null);
-    final provider = Provider.of<DatabaseProvider>(context, listen: false);
+    final provider = Provider.of<DatabaseProvider>(context, listen: true);
     return Container(
       decoration: const BoxDecoration(
           color: Colors.blue,
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(20))),
       child: TableCalendar(
-        focusedDay: _focusedDay,
-        firstDay: DateTime.utc(1970, 01, 01),
-        lastDay: DateTime.utc(2040, 12, 31),
+        focusedDay: DateTime.parse(provider.focusedDay),
+        firstDay: _firstDay,
+        lastDay: _lastDay,
         selectedDayPredicate: (day) {
-          return isSameDay(_selectedDay, day);
+          return isSameDay(DateTime.parse(provider.focusedDay), day);
         },
         rangeSelectionMode: RangeSelectionMode.disabled,
         onDaySelected: (selectedDay, focusedDay) {
-          if (!isSameDay(_selectedDay, selectedDay)) {
+          if (!isSameDay(DateTime.parse(provider.focusedDay), selectedDay)) {
             setState(() {
               _selectedDay = selectedDay;
               _focusedDay = focusedDay;
-              provider.focusedDay = Constants().formatter.format(focusedDay);
+              provider.focusedDay =
+                  Constants().sqlDateFormat.format(focusedDay);
+              provider.pickedDate =
+                  Constants().sqlDateFormat.format(focusedDay);
             });
-            provider.getPlanners(Constants().formatter.format(_focusedDay));
+            provider.getPlanners(Constants().sqlDateFormat.format(_focusedDay));
           } else {
             showDatePicker(
                     context: context,
                     initialDate: _selectedDay,
-                    firstDate: DateTime.utc(2020, 01, 01),
-                    lastDate: DateTime(DateTime.now().year + 10),
+                    firstDate: _firstDay,
+                    lastDate: _lastDay,
                     locale: const Locale('pl', ''))
                 .then(
               (date) => setState(
@@ -57,8 +62,10 @@ class _CalendarWidgetState extends State<CalendarWidget> {
                   }
                   _selectedDay = date;
                   _focusedDay = _selectedDay;
-                  provider
-                      .getPlanners(Constants().formatter.format(_focusedDay));
+                  provider.getPlanners(
+                      Constants().sqlDateFormat.format(_focusedDay));
+                  provider.focusedDay =
+                      Constants().sqlDateFormat.format(_focusedDay);
                 },
               ),
             );

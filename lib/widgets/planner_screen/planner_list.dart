@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:podliczator2000/widgets/planner_screen/empty_planner.dart';
-import 'package:podliczator2000/widgets/planner_screen/planners_count.dart';
+import 'package:podliczator2000/widgets/planner_screen/planner_cards.dart';
 import 'package:provider/provider.dart';
 
 import 'planner_card.dart';
@@ -15,31 +15,23 @@ class PlannerList extends StatelessWidget {
       builder: (_, db, __) {
         var plannerList = db.planners;
         return plannerList.isNotEmpty
-            ? Column(
-                children: [
-                  PlannersCount(plannerQuantity: plannerList.length),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: plannerList.length,
-                      itemBuilder: (_, i) {
-                        if (i == plannerList.length - 1) {
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                bottom: 15, left: 15, right: 15),
-                            child: PlannerCard(plannerList[i]),
-                          );
-                        }
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: PlannerCard(plannerList[i]),
-                        );
-                      },
-                    ),
+            ? CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: PlannerCards(plannerList: plannerList),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                        (context, i) => PlannerCard(plannerList[i]),
+                        childCount: plannerList.length),
                   )
                 ],
               )
-            : const Center(
-                child: EmptyPlanner(),
+            : Column(
+                children: [
+                  PlannerCards(plannerList: plannerList),
+                  const Expanded(child: EmptyPlanner()),
+                ],
               );
       },
     );

@@ -19,7 +19,7 @@ class _PlannerFetcherState extends State<PlannerFetcher> {
   Future _getPlannerList() async {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
     DateTime date = DateTime.now();
-    return await provider.getPlanners(Constants().formatter.format(date));
+    return await provider.getPlanners(Constants().sqlDateFormat.format(date));
   }
 
   @override
