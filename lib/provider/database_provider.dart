@@ -59,6 +59,14 @@ class DatabaseProvider with ChangeNotifier {
   List<CategorySummary> _categorySummaries = [];
   List<CategorySummary> get categorySummaries => _categorySummaries;
 
+  int _procedureQuantity = 1;
+  int get procedureQuantity => _procedureQuantity;
+  set procedureQuantity(int value) {
+    if (value < 1) return;
+    _procedureQuantity = value;
+    notifyListeners();
+  }
+
   Database? _database;
   Future<Database> get database async {
     final dbDirectory = await getDatabasesPath();
@@ -172,18 +180,20 @@ class DatabaseProvider with ChangeNotifier {
     });
   }
 
-  Future<void> addPlanner(AddPlanner planner) async {
+  Future<void> addPlanner(AddPlanner planner, int quantity) async {
     final db = await database;
     await db.transaction((txn) async {
-      await txn
-          .insert(
-        plannerTable,
-        planner.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      )
-          .then((generatedId) {
-        notifyListeners();
-      });
+      for (int i = 1; i <= quantity; i++) {
+        await txn
+            .insert(
+          plannerTable,
+          planner.toMap(),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        )
+            .then((generatedId) {
+          notifyListeners();
+        });
+      }
     });
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:podliczator2000/model/add_planner.dart';
 import 'package:podliczator2000/model/procedure.dart';
+import 'package:podliczator2000/widgets/procedures_screen/counter_box.dart';
 import 'package:provider/provider.dart';
 import '../../provider/database_provider.dart';
 
@@ -44,7 +45,13 @@ class ProcedureListTile extends StatelessWidget {
       ),
       trailing: Row(mainAxisSize: MainAxisSize.min, children: [
         IconButton(
-          onPressed: () {},
+          onPressed: () async {
+            provider.procedureQuantity = 1;
+            showDialog(
+                context: context,
+                builder: (context) => CounterBox(
+                    procedureId: procedure.id, procedureName: procedure.name));
+          },
           icon: const Icon(Icons.keyboard_arrow_right_rounded),
           iconSize: 40,
         ),
@@ -54,7 +61,7 @@ class ProcedureListTile extends StatelessWidget {
               date: provider.focusedDay,
               procedureId: procedure.id,
             );
-            provider.addPlanner(planner);
+            provider.addPlanner(planner, 1);
             FocusManager.instance.primaryFocus?.unfocus();
             Future.delayed(const Duration(milliseconds: 250), () {
               final snackbar = SnackBar(
