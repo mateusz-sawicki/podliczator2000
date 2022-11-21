@@ -19,10 +19,12 @@ class _ProcedureSearchState extends State<ProcedureSearch> {
     super.initState();
   }
 
-  //TODO: add remover in search field
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
+
+    final controller = TextEditingController();
+
     return Container(
       height: 42,
       margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
@@ -37,13 +39,22 @@ class _ProcedureSearchState extends State<ProcedureSearch> {
         onChanged: (value) {
           provider.searchText = value;
         },
-        decoration: const InputDecoration(
-          icon: Icon(
+        controller: controller,
+        decoration: InputDecoration(
+          icon: const Icon(
             Icons.search,
             color: Colors.black54,
           ),
+          suffixIcon: GestureDetector(
+            child: const Icon(Icons.close, color: Colors.black54),
+            onTap: () {
+              controller.clear();
+              provider.searchText = '';
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+          ),
           hintText: 'Wyszukaj procedurę',
-          hintStyle: TextStyle(color: Colors.black54),
+          hintStyle: const TextStyle(color: Colors.black54),
           border: InputBorder.none,
         ),
       ),
