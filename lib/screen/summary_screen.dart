@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:podliczator2000/api/raport_service.dart';
 import 'package:podliczator2000/model/summary_period.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_fetcher.dart';
@@ -53,14 +55,19 @@ class _SummaryScreenState extends State<SummaryScreen> {
                               provider.setDates(
                                   provider.period, provider.pickedDate),
                               provider.period);
-                          service.savePdfFile("raport_test", data);
+                          service.savePdfFile(
+                              setRaportFileName(
+                                  provider.setDates(
+                                      provider.period, provider.pickedDate),
+                                  "AgataS"),
+                              data);
                         },
-                        icon: const Icon(Icons.picture_as_pdf))
+                        icon: const Icon(MdiIcons.filePdfBox))
                     : IconButton(
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(snackbar);
                         },
-                        icon: const Icon(Icons.picture_as_pdf));
+                        icon: const Icon(MdiIcons.filePdfBox));
               })
             ],
             bottom: TabBar(
@@ -97,5 +104,25 @@ class _SummaryScreenState extends State<SummaryScreen> {
                 SummaryFetcher(period: SummaryPeriod.yearly),
               ]),
         ));
+  }
+
+  String setRaportFileName(List<String> days, String userName) {
+    final provider = Provider.of<DatabaseProvider>(context, listen: false);
+    String raportFileNameDateString = "";
+    if (provider.period == SummaryPeriod.daily) {
+      raportFileNameDateString = days[0].toString();
+    }
+    if (provider.period == SummaryPeriod.weekly) {
+      raportFileNameDateString = "${days[0]}_${days[1]}";
+    }
+    if (provider.period == SummaryPeriod.monthly) {
+      raportFileNameDateString =
+          "${toBeginningOfSentenceCase(DateFormat.MMMM('pl_PL').format(DateTime.parse(days[0])))}_${DateFormat.y('pl_PL').format(DateTime.parse(days[0]))}";
+    }
+    if (provider.period == SummaryPeriod.yearly) {
+      raportFileNameDateString =
+          DateFormat.y('pl_PL').format(DateTime.parse(days[0]));
+    }
+    return "raport_${userName}_$raportFileNameDateString";
   }
 }

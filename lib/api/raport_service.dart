@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -112,7 +112,7 @@ class PdfRaportService {
   Future<void> savePdfFile(String fileName, Uint8List byteList) async {
     final output = await getTemporaryDirectory();
     var filePath = "${output.path}/$fileName.pdf";
-    final file = File(filePath);
+    final file = io.File(filePath);
     await file.writeAsBytes(byteList);
     await OpenFile.open(filePath);
   }
