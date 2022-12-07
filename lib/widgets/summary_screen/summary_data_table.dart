@@ -104,7 +104,7 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                             Text(
                               element.procedureName,
                               style: const TextStyle(
-                                  fontSize: 13,
+                                  fontSize: 12,
                                   overflow: TextOverflow.ellipsis,
                                   fontWeight: FontWeight.w700),
                               maxLines: 5,
