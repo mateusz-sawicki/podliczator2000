@@ -270,38 +270,55 @@ class DatabaseProvider with ChangeNotifier {
   }
 
   String setSqlQueryForSummary(SummaryPeriod period, String date) {
-    DateTime dateInDateTime;
     String periodQuery = "";
+    List<String> dayList;
     if (period == SummaryPeriod.daily) {
+      dayList = setDates(period, date);
       return periodQuery =
-          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$date" and "$date"''';
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "${dayList[0]}" and "${dayList[1]}"''';
+    }
+    if (period == SummaryPeriod.weekly) {
+      dayList = setDates(period, date);
+      return periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "${dayList[0]}" and "${dayList[1]}"''';
+    }
+    if (period == SummaryPeriod.monthly) {
+      dayList = setDates(period, date);
+      return periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "${dayList[0]}" and "${dayList[1]}"''';
+    }
+    if (period == SummaryPeriod.yearly) {
+      dayList = setDates(period, date);
+      return periodQuery =
+          '''strftime('%Y-%m-%d', planner.date) BETWEEN "${dayList[0]}" and "${dayList[1]}"''';
+    }
+    return periodQuery;
+  }
+
+  List<String> setDates(SummaryPeriod period, String date) {
+    DateTime dateInDateTime;
+    if (period == SummaryPeriod.daily) {
+      return [date, date];
     }
     if (period == SummaryPeriod.weekly) {
       dateInDateTime = DateTime.parse(date);
       String startDay = getStartOfWeek(dateInDateTime);
       String endDay = getEndOfWeek(dateInDateTime);
-      return periodQuery =
-          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
+      return [startDay, endDay];
     }
     if (period == SummaryPeriod.monthly) {
       dateInDateTime = DateTime.parse(date);
       String startDay = getStartOfMonth(dateInDateTime);
       String endDay = getEndOfMonth(dateInDateTime);
-      return periodQuery =
-          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
+      return [startDay, endDay];
     }
     if (period == SummaryPeriod.yearly) {
       var splittedDate = date.split(";");
       dateInDateTime = DateTime.parse(splittedDate[0]);
       String startDay = getStartOfYear(dateInDateTime);
       String endDay = getEndOfYear(dateInDateTime);
-      if (date.split(";").length == 2) {
-        startDay = date.split(";")[0];
-        endDay = date.split(";")[1];
-      }
-      return periodQuery =
-          '''strftime('%Y-%m-%d', planner.date) BETWEEN "$startDay" and "$endDay"''';
+      return [startDay, endDay];
     }
-    return periodQuery;
+    return [date, date];
   }
 }
