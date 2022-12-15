@@ -9,59 +9,75 @@ class PlannerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
       child: Card(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          child: ListTile(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15.0),
-            ),
-            dense: true,
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
-            tileColor: Colors.grey[50],
-            title: Padding(
-              padding: const EdgeInsets.only(left: 8, bottom: 5),
-              child: Text(
-                planner.procedureName,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-              ),
-            ),
-            subtitle: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Column(children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 5),
-                  child: Row(children: [
-                    const Icon(
-                      Icons.grid_view_rounded,
-                      size: 16,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Container(
+          padding: const EdgeInsets.fromLTRB(12, 15, 12, 20),
+          child: Stack(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20, bottom: 5),
+                    child: Text(
+                      planner.procedureName,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16),
                     ),
-                    Text(
-                      planner.categoryName,
-                      style: const TextStyle(fontSize: 14),
-                    )
-                  ]),
-                ),
-                Row(children: [
-                  const Icon(
-                    Icons.request_quote,
-                    size: 16,
                   ),
-                  Text(
-                    planner.priceListName,
-                    style: const TextStyle(fontSize: 14),
-                  )
-                ]),
-              ]),
-            ),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                IconButton(
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.grid_view_rounded,
+                              size: 16,
+                              color: Colors.grey[600],
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              planner.categoryName,
+                              style: TextStyle(
+                                  fontSize: 14, color: Colors.grey[600]),
+                            )
+                          ],
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.request_quote,
+                            size: 16,
+                            color: Colors.grey[600],
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            planner.priceListName,
+                            style: TextStyle(
+                                fontSize: 14, color: Colors.grey[600]),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
                   onPressed: () async {
@@ -76,9 +92,11 @@ class PlannerCard extends StatelessWidget {
                     color: Colors.red,
                   ),
                 ),
-              ],
-            ),
-          )),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
