@@ -16,7 +16,7 @@ class _ProcedureFetcherState extends State<ProcedureFetcher> {
 
   Future _getProcedureList() async {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
-    return await provider.getProcedures();
+    return await provider.getProcedures(2);
   }
 
   @override

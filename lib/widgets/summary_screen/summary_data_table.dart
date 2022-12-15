@@ -18,7 +18,7 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
   Widget build(BuildContext context) {
     return Container(
       constraints:
-          const BoxConstraints(minWidth: double.infinity, maxHeight: 450),
+          const BoxConstraints(minWidth: double.infinity, maxHeight: 500),
       child: SingleChildScrollView(
           child: Card(
         shape: RoundedRectangleBorder(
@@ -104,7 +104,7 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                             Text(
                               element.procedureName,
                               style: const TextStyle(
-                                  fontSize: 13,
+                                  fontSize: 12,
                                   overflow: TextOverflow.ellipsis,
                                   fontWeight: FontWeight.w700),
                               maxLines: 6,

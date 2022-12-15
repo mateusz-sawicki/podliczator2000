@@ -22,16 +22,9 @@ class FocusedDayCard extends StatelessWidget {
         margin: const EdgeInsets.only(right: 5),
         borderOnForeground: false,
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.1),
-                spreadRadius: 3,
-                blurRadius: 5,
-              ),
-            ],
           ),
           child: Center(
             child: Text(date,
