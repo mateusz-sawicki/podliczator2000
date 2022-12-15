@@ -107,7 +107,7 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                                   fontSize: 12,
                                   overflow: TextOverflow.ellipsis,
                                   fontWeight: FontWeight.w700),
-                              maxLines: 5,
+                              maxLines: 6,
                             ),
                             const SizedBox(
                               height: 5,
@@ -130,7 +130,7 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                             .format(element.procedureSum))),
                   ]))
               .toList(),
-          dataRowHeight: MediaQuery.of(context).size.height / 7,
+          dataRowHeight: MediaQuery.of(context).size.height / 6,
         ),
       )),
     );
