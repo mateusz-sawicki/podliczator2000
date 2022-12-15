@@ -15,6 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: const DiaryScreen(),
       floatingActionButton: FloatingActionButton(
+        mini: false,
         child: const Icon(Icons.add),
         onPressed: () async {
           await Navigator.push(

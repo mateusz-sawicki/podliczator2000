@@ -20,10 +20,13 @@ class PlannerList extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: PlannerCards(plannerList: plannerList),
                   ),
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                        (context, i) => PlannerCard(plannerList[i]),
-                        childCount: plannerList.length),
+                  SliverPadding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                          (context, i) => PlannerCard(plannerList[i]),
+                          childCount: plannerList.length),
+                    ),
                   )
                 ],
               )
