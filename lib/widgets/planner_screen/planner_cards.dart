@@ -6,9 +6,9 @@ import 'package:podliczator2000/widgets/planner_screen/planners_count.dart';
 
 class PlannerCards extends StatelessWidget {
   const PlannerCards({
-    Key? key,
+    super.key,
     required this.plannerList,
-  }) : super(key: key);
+  });
 
   final List<Planner> plannerList;
 

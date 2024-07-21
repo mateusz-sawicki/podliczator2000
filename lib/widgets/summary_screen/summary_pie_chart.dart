@@ -4,10 +4,10 @@ import 'package:podliczator2000/model/category_summary.dart';
 
 class SummaryPieChart extends StatelessWidget {
   const SummaryPieChart({
-    Key? key,
+    super.key,
     required this.total,
     required this.list,
-  }) : super(key: key);
+  });
 
   final double total;
   final List<CategorySummary> list;

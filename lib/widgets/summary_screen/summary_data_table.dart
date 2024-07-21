@@ -130,7 +130,7 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
                             .format(element.procedureSum))),
                   ]))
               .toList(),
-          dataRowHeight: MediaQuery.of(context).size.height / 6,
+          dataRowMinHeight: MediaQuery.of(context).size.height / 6,
         ),
       )),
     );

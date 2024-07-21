@@ -10,10 +10,10 @@ class ConfirmBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
     return AlertDialog(
-      title: Column(
+      title: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
+        children: [
           Icon(
             Icons.info_outline,
             size: 60,

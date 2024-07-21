@@ -22,8 +22,12 @@ class DiaryScreen extends StatelessWidget {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             hoverColor: Colors.transparent,
-            child:
-                Text('podliczajka', style: GoogleFonts.pacifico(fontSize: 25)),
+            child: Text(
+              'podliczajka',
+              style: GoogleFonts.pacifico(
+                  textStyle: const TextStyle(color: Colors.white),
+                  fontSize: 25),
+            ),
             onTap: () {
               final provider =
                   Provider.of<DatabaseProvider>(context, listen: false);

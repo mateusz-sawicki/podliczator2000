@@ -70,10 +70,10 @@ class _SummaryDetailsState extends State<SummaryDetails> {
                   ],
                 ),
               )
-            : Padding(
-                padding: const EdgeInsets.all(8.0),
+            : const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: Column(
-                  children: const [
+                  children: [
                     Expanded(flex: 8, child: SummaryDate()),
                     Expanded(flex: 92, child: EmptySummary()),
                   ],

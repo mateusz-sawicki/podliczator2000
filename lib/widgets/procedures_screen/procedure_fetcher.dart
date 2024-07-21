@@ -34,8 +34,8 @@ class _ProcedureFetcherState extends State<ProcedureFetcher> {
           if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           } else {
-            return Column(
-              children: const [
+            return const Column(
+              children: [
                 ProcedureSearch(),
                 ProcedureList(),
               ],
