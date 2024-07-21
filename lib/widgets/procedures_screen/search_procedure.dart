@@ -22,7 +22,6 @@ class _ProcedureSearchState extends State<ProcedureSearch> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
-
     final controller = TextEditingController();
 
     return Container(
@@ -56,6 +55,7 @@ class _ProcedureSearchState extends State<ProcedureSearch> {
           hintText: 'Wyszukaj procedurę',
           hintStyle: const TextStyle(color: Colors.black54),
           border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(vertical: 4),
         ),
       ),
     );
