@@ -44,6 +44,8 @@ class _SummaryScreenState extends State<SummaryScreen> {
           appBar: AppBar(
             title: const Text('Podsumowanie'),
             elevation: 0,
+            backgroundColor: Colors.blue,
+            foregroundColor: Colors.white,
             actions: [
               Consumer<DatabaseProvider>(builder: (_, db, __) {
                 var summaryList = db.summaries;
@@ -79,6 +81,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                       topLeft: Radius.circular(5),
                       topRight: Radius.circular(5)),
                   color: Colors.grey[300]),
+              indicatorSize: TabBarIndicatorSize.tab,
               tabs: const [
                 Tab(
                   text: 'Dzienne',

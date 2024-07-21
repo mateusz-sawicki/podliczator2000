@@ -84,7 +84,10 @@ class CounterBox extends StatelessWidget {
             onPressed: () {
               Navigator.pop(context);
             },
-            child: const Text('Anuluj')),
+            child: const Text(
+              'Anuluj',
+              style: TextStyle(color: Colors.blue),
+            )),
         TextButton(
             onPressed: () async {
               final planner = AddPlanner(
@@ -117,7 +120,10 @@ class CounterBox extends StatelessWidget {
               });
               provider.getPlanners(planner.date);
             },
-            child: const Text('Dodaj')),
+            child: const Text(
+              'Dodaj',
+              style: TextStyle(color: Colors.blue),
+            )),
       ],
     );
   }

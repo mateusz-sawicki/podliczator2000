@@ -16,9 +16,9 @@ class FocusedDayCard extends StatelessWidget {
     return SizedBox(
       height: 50,
       child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        color: Colors.white,
         margin: const EdgeInsets.only(right: 5),
         borderOnForeground: false,
         child: Container(

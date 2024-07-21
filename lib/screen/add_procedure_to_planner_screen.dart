@@ -9,6 +9,8 @@ class AddProcedureToPlannerScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lista procedur'),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
       ),
       body: const ProcedureFetcher(),
     );

@@ -16,7 +16,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: const DiaryScreen(),
       floatingActionButton: FloatingActionButton(
         mini: false,
-        child: const Icon(Icons.add),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        shape: const CircleBorder(),
         onPressed: () async {
           await Navigator.push(
             context,
@@ -25,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         },
+        child: const Icon(Icons.add),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
