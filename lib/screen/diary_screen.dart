@@ -16,6 +16,7 @@ class DiaryScreen extends StatelessWidget {
       appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.blue,
+          foregroundColor: Colors.white,
           centerTitle: true,
           toolbarHeight: 56,
           title: InkWell(

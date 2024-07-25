@@ -10,11 +10,14 @@ class ProcedureSearch extends StatefulWidget {
 }
 
 class _ProcedureSearchState extends State<ProcedureSearch> {
+  int? _value;
+
   @override
   void initState() {
     Future.delayed(Duration.zero, () {
       final provider = Provider.of<DatabaseProvider>(context, listen: false);
       provider.searchText = '';
+      provider.getProcedures(int.parse(_value.toString()));
     });
     super.initState();
   }
@@ -25,38 +28,71 @@ class _ProcedureSearchState extends State<ProcedureSearch> {
     final controller = TextEditingController();
 
     return Container(
-      height: 42,
       margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
-        border: Border.all(color: Colors.black26),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: TextField(
-        autofocus: true,
-        onChanged: (value) {
-          provider.searchText = value;
-        },
-        controller: controller,
-        decoration: InputDecoration(
-          icon: const Icon(
-            Icons.search,
-            color: Colors.black54,
+      child: Column(
+        children: [
+          Container(
+            height: 42,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.white,
+              border: Border.all(color: Colors.black26),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: TextField(
+              autofocus: true,
+              onChanged: (value) {
+                provider.searchText = value;
+              },
+              controller: controller,
+              decoration: InputDecoration(
+                icon: const Icon(
+                  Icons.search,
+                  color: Colors.black54,
+                ),
+                suffixIcon: GestureDetector(
+                  child: const Icon(Icons.close, color: Colors.black54),
+                  onTap: () {
+                    controller.clear();
+                    provider.searchText = '';
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
+                ),
+                hintText: 'Wyszukaj procedurę',
+                hintStyle: const TextStyle(color: Colors.black54),
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(vertical: 4),
+              ),
+            ),
           ),
-          suffixIcon: GestureDetector(
-            child: const Icon(Icons.close, color: Colors.black54),
-            onTap: () {
-              controller.clear();
-              provider.searchText = '';
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-          ),
-          hintText: 'Wyszukaj procedurę',
-          hintStyle: const TextStyle(color: Colors.black54),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: 4),
-        ),
+          Consumer<DatabaseProvider>(builder: (_, db, __) {
+            var priceLists = db.priceLists;
+            _value ??= priceLists.firstWhere((x) => x.isActive == 1).id;
+            return Row(
+              children: [
+                Wrap(
+                  spacing: 5.0,
+                  children: List<Widget>.generate(
+                    priceLists.length,
+                    (index) {
+                      return ChoiceChip(
+                        label: Text(priceLists[index].name),
+                        selected: _value == index + 1,
+                        onSelected: (bool selected) {
+                          setState(() {
+                            _value = selected ? index + 1 : null;
+                          });
+                          provider.setActivePriceList(priceLists[index].id);
+                          provider.getProcedures(priceLists[index].id);
+                        },
+                      );
+                    },
+                  ).toList(),
+                )
+              ],
+            );
+          })
+        ],
       ),
     );
   }

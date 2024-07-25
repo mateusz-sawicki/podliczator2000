@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:podliczator2000/model/add_planner.dart';
 import 'package:podliczator2000/model/category_summary.dart';
 import 'package:podliczator2000/model/planner.dart';
+import 'package:podliczator2000/model/price_list.dart';
 import 'package:podliczator2000/model/procedure.dart';
 import 'package:podliczator2000/model/summary.dart';
 import 'package:podliczator2000/model/summary_period.dart';
@@ -58,6 +61,9 @@ class DatabaseProvider with ChangeNotifier {
 
   List<CategorySummary> _categorySummaries = [];
   List<CategorySummary> get categorySummaries => _categorySummaries;
+
+  List<PriceList> _priceLists = [];
+  List<PriceList> get priceLists => _priceLists;
 
   int _procedureQuantity = 1;
   int get procedureQuantity => _procedureQuantity;
@@ -164,6 +170,7 @@ class DatabaseProvider with ChangeNotifier {
             (index) => Procedure.fromString(converted[index]));
 
         _procedures = proceduresList;
+        notifyListeners();
         return _procedures;
       });
     });
@@ -230,6 +237,63 @@ class DatabaseProvider with ChangeNotifier {
         notifyListeners();
 
         return _categorySummaries;
+      });
+    });
+  }
+
+  Future<List<PriceList>> getPriceLists() async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      return await txn.rawQuery('''SELECT * FROM price_list''').then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+
+        List<PriceList> priceLists = List.generate(converted.length,
+            (index) => PriceList.fromString(converted[index]));
+
+        _priceLists = priceLists;
+        notifyListeners();
+
+        return _priceLists;
+      });
+    });
+  }
+
+  Future setActivePriceList(int id) async {
+    deactivateAllPriceLists();
+    activatePriceList(id);
+    getPriceLists();
+    notifyListeners();
+  }
+
+  Future deactivateAllPriceLists() async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      return await txn
+          .rawQuery('''UPDATE PRICE_LIST SET IS_ACTIVE = 0''').then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+
+        List<PriceList> priceLists = List.generate(converted.length,
+            (index) => PriceList.fromString(converted[index]));
+
+        _priceLists = priceLists;
+        return _priceLists;
+      });
+    });
+  }
+
+  Future activatePriceList(int id) async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      return await txn.rawQuery(
+          '''UPDATE PRICE_LIST SET IS_ACTIVE = 1 WHERE ID = $id''').then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+
+        List<PriceList> priceLists = List.generate(converted.length,
+            (index) => PriceList.fromString(converted[index]));
+
+        _priceLists = priceLists;
+
+        return _priceLists;
       });
     });
   }

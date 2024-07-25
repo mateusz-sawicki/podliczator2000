@@ -12,23 +12,30 @@ class ProcedureFetcher extends StatefulWidget {
 }
 
 class _ProcedureFetcherState extends State<ProcedureFetcher> {
-  late Future _procedureList;
+  //late Future _procedureList;
+  late Future _priceLists;
 
   Future _getProcedureList() async {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
     return await provider.getProcedures(2);
   }
 
+  Future _getPriceLists() async {
+    final provider = Provider.of<DatabaseProvider>(context, listen: false);
+    return await provider.getPriceLists();
+  }
+
   @override
   void initState() {
     super.initState();
-    _procedureList = _getProcedureList();
+    // _procedureList = _getProcedureList();
+    _priceLists = _getPriceLists();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _procedureList,
+      future: Future.wait([_priceLists]),
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
