@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:podliczator2000/model/summary_period.dart';
 import 'package:podliczator2000/provider/database_provider.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_chart_card.dart';
-import 'package:podliczator2000/widgets/summary_screen/summary_data_table.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_date.dart';
 import 'package:podliczator2000/widgets/summary_screen/summary_total.dart';
 import 'package:provider/provider.dart';
