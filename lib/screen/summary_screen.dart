@@ -64,7 +64,7 @@ class _SummaryScreenState extends State<SummaryScreen> {
                                   "AgataS"),
                               data);
                         },
-                        icon: Icon(MdiIcons.abTesting))
+                        icon: Icon(MdiIcons.filePdfBox))
                     : IconButton(
                         onPressed: () {
                           ScaffoldMessenger.of(context).showSnackBar(snackbar);

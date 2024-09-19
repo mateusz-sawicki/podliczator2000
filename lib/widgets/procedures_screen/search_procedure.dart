@@ -67,29 +67,33 @@ class _ProcedureSearchState extends State<ProcedureSearch> {
           ),
           Consumer<DatabaseProvider>(builder: (_, db, __) {
             var priceLists = db.priceLists;
+            priceLists.sort((b, a) => a.id.compareTo(b.id));
             _value ??= priceLists.firstWhere((x) => x.isActive == 1).id;
-            return Row(
-              children: [
-                Wrap(
-                  spacing: 5.0,
-                  children: List<Widget>.generate(
-                    priceLists.length,
-                    (index) {
-                      return ChoiceChip(
-                        label: Text(priceLists[index].name),
-                        selected: _value == index + 1,
-                        onSelected: (bool selected) {
-                          setState(() {
-                            _value = selected ? index + 1 : null;
-                          });
-                          provider.setActivePriceList(priceLists[index].id);
-                          provider.getProcedures(priceLists[index].id);
-                        },
-                      );
-                    },
-                  ).toList(),
-                )
-              ],
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Wrap(
+                    spacing: 5.0,
+                    children: List<Widget>.generate(
+                      priceLists.length,
+                      (index) {
+                        return ChoiceChip(
+                          label: Text(priceLists[index].name),
+                          selected: _value == priceLists[index].id,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _value = selected ? priceLists[index].id : null;
+                            });
+                            provider.setActivePriceList(priceLists[index].id);
+                            provider.getProcedures(priceLists[index].id);
+                          },
+                        );
+                      },
+                    ).toList(),
+                  )
+                ],
+              ),
             );
           })
         ],

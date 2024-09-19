@@ -17,8 +17,8 @@ class _SummaryDataTableState extends State<SummaryDataTable> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints:
-          const BoxConstraints(minWidth: double.infinity, maxHeight: 500),
+      constraints: const BoxConstraints(
+          minWidth: double.infinity, maxHeight: 500, minHeight: 200),
       child: SingleChildScrollView(
           child: Card(
         shape: RoundedRectangleBorder(

@@ -62,11 +62,11 @@ class _SummaryDetailsState extends State<SummaryDetails> {
                     const SliverToBoxAdapter(
                       child: SummaryChartCard(),
                     ),
-                    SliverToBoxAdapter(
-                      child: SummaryDataTable(
-                        summaryList: summaryList,
-                      ),
-                    ),
+                    // SliverToBoxAdapter(
+                    //   child: SummaryDataTable(
+                    //     summaryList: summaryList,
+                    //   ),
+                    // ),
                   ],
                 ),
               )
